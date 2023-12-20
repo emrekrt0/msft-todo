@@ -5,7 +5,7 @@ export default function LeftNavbar() {
         <div className="leftNavBar">
             <div className="leftNavBarTop">
                 <div className="hamburgerMenu">
-                    <p>hamburgericon</p>
+                    <img src="./src/assets/static/menu.svg" alt="" />
                 </div>
                 <div className="lNavbar">
                     <ul className="lNavbarList">

@@ -16,9 +16,15 @@ export default function Header() {
                     <input type="text" placeholder="Search your tasks" />
                 </div>
                 <div className="header_userSettings">
-                    <p>settings</p>
-                    <p>faq</p>
-                    <p>announcment</p>
+                    <div className="settingsIcon">
+                        <img src="./src/assets/static/settings.svg" alt=""/>
+                    </div>
+                    <div className="helpIcon">
+                        <img src="./src/assets/static/help-circle.svg" alt=""/>
+                    </div>
+                    <div className="annIcon">
+                        <img src="./src/assets/static/bullhorn-solid.svg" alt=""/>
+                    </div>
                 </div>
             </div>
 

@@ -12,6 +12,8 @@ body {
   -webkit-font-smoothing: antialiased;
   background-color: #faf9f8;
   font-family: "Segoe","Segoe UI","Arial","sans-serif";
+  font-size: 14px;
+  height: 100%;
 }
 
 img, picture, video, canvas, svg {
@@ -35,6 +37,7 @@ button {
   height: 100%;
   border: none;
   box-shadow: none;
+  cursor: pointer;
 }
 textarea:focus, input:focus{
   outline: none;
@@ -95,7 +98,13 @@ input {
   font-size: 14px;
   padding: 0 10px;
 }
-
+.header .header_center .header_userSettings img {
+  max-height: 16px;
+  max-width: 16px;
+}
+.header_userSettings>div{
+  padding: 16px 16px;
+}
 .header_center .header_userSettings {
   display: flex;
   gap: 5px;
@@ -114,7 +123,7 @@ input {
   background-color: #fff;
   width: fit-content;
   box-shadow: #2564cf;
-  height: 100vh;
+  height: calc(100vh - 48px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -123,6 +132,7 @@ input {
 .leftNavBar .lNavbar .lNavbarList li {
   display: flex;
   gap: 10px;
+  flex: none;
   padding: 15px 10px;
   padding-right: 150px;
   align-items: center;
@@ -186,4 +196,23 @@ input {
 }
 .baseAdd .baseAddInput-important {
   width: 100%;
+}
+.choices {
+  border-top: solid 1px #edebe9;
+  background-color: #faf9f8;
+  display: flex;
+  justify-content: space-between;
+}
+.addTaskParent .choices .taskCreation-entrybar {
+  display: flex;
+  padding: 0px 16px;
+  min-height: 52px;
+}
+.choices .addButton-container button {
+  background-color: #cac7c7;
+  border: none;
+  outline: none;
+  padding: 0px 16px;
+  display: flex;
+  align-items: center;
 }
