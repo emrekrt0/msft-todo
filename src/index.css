@@ -1,68 +1,189 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* CSS Reset Baslangic */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+* {
+  margin: 0;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  background-color: #faf9f8;
+  font-family: "Segoe","Segoe UI","Arial","sans-serif";
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
 }
 
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+#root, #__next {
+  isolation: isolate;
+}
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+  background: none;
+  height: 100%;
+  border: none;
+  box-shadow: none;
 }
-button:hover {
-  border-color: #646cff;
+textarea:focus, input:focus{
+  outline: none;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+ul {list-style: none; padding: 0;}
+a {text-decoration: none; color: inherit;}
+
+input {
+  border: none;
+  outline: none;
+}
+/* CSS Reset Bitis */
+
+.header {
+  min-height: 48px;
+  max-height: 48px;
+  display: grid;
+  grid-template-columns: 1fr 20fr 1fr;
+  align-items: center;
+  gap: 5px;
+  justify-content: space-between;
+  background-color: #2564cf;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.header img {
+  max-height: 16px;
+  max-width: 16px;
+}
+.header .header_left {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 15px;
+}
+
+.header .header_center {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+.header .header_center .header_text {
+  color: #fff;
+}
+.header .header_searchbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  max-width: 400px;
+  background: #fff;
+  background: var(#fff);
+  margin: 8px auto;
+  height: 32px;
+}
+.header .header_searchbar input {
+  width: 400px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  padding: 0 10px;
+}
+
+.header_center .header_userSettings {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+ .header_right {
+  display: flex;
+}
+ .header_right .header_user {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: flex-end;
+}
+.leftNavBar {
+  background-color: #fff;
+  width: fit-content;
+  box-shadow: #2564cf;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 10px;
+}
+.leftNavBar .lNavbar .lNavbarList li {
+  display: flex;
+  gap: 10px;
+  padding: 15px 10px;
+  padding-right: 150px;
+  align-items: center;
+}
+.leftNavBar .splitter {
+  background-color: #e1dfdd;
+  height: 1px;
+  margin-bottom: 10px;
+}
+.leftNavBarBottom .officeButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+#detail {
+  width: 100%;
+}
+#root .mainContent {
+  display: flex;
+}
+.mainContent .mainBackground {
+
+  max-width: 100%; 
+  margin-inline: auto; 
+  padding: 50px 50px;
+}
+
+
+.mainContent .mainBackground .addTaskParent {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap; /* Allow content to wrap */
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  box-shadow: 0px 0.3px 0.9px rgba(0,0,0,0.1), 0px 1.6px 3.6px rgba(0,0,0,0.1);
+  background-color: #fff;
+  margin-top: 50px;
+}
+
+.mainBackground .importantHeader .importantHeader-title {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 15px;
+}
+.baseAdd {
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+.baseAdd.addTask {
+  padding: 0px 16px;
+  min-height: 52px;
+}
+.baseAdd .baseAddInput-important {
+  width: 100%;
 }

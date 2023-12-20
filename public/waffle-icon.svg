@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+	<title>waffle-icon</title>
+	<defs>
+		<image  width="204" height="204" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMwAAADMAQMAAAAF7N6xAAAAAXNSR0IB2cksfwAAAAZQTFRF////1kUb263oUAAAAAJ0Uk5T/wDltzBKAAAASklEQVR4nO3UsQ2AMAxEUTMZ+2/BCNngkNKlIAWVBe9Xll59rpqdyTWPI0ktIYQQekd5aiDUgposBSGEfkWbt4xQB2qyFIQQ+hzdYpi4td5c4wsAAAAASUVORK5CYII="/>
+	</defs>
+	<style>
+	</style>
+	<use id="Background" href="#img1" x="26" y="26"/>
+</svg>
