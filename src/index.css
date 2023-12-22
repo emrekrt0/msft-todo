@@ -170,12 +170,17 @@ input {
   justify-content: space-between;
   padding: 20px 10px;
 }
+.leftNavBar .lNavbar .lNavbarList {
+  width: 240px;
+}
+.leftNavBar .lNavbar {
+  padding: 10px 10px;
+}
 .leftNavBar .lNavbar .lNavbarList li {
   display: flex;
   gap: 10px;
   flex: none;
   padding: 15px 10px;
-  padding-right: 150px;
   align-items: center;
 }
 .leftNavBar .splitter {

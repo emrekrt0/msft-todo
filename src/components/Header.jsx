@@ -1,6 +1,32 @@
 import { Link } from "react-router-dom"
+import { useState } from "react"
+import { createClient } from '@supabase/supabase-js';
 
-export default function Header() { 
+
+const supabase = createClient(
+    'https://jopuhrloekkmoytnujmb.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvcHVocmxvZWtrbW95dG51am1iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDMyMzg4OTMsImV4cCI6MjAxODgxNDg5M30.fs4Glk5dtLG80qIyN8fBJGw3jlgwwv4ff6n5B32yJ8E'
+  );
+
+export default function Header() {
+    const [isLogged, setIsLogged] = useState(false);
+    const [user, setUser] = useState([]);
+
+    
+    supabase.auth.onAuthStateChange((event, session) => {
+        if (session) {
+        setIsLogged(true);
+        setUser(session.user.user_metadata.name);
+        } else {
+            setIsLogged(false);
+        }
+    })
+
+    async function logOut() {
+        await supabase.auth.signOut();
+        setUser([]);
+    }
+
     return(
         <>
         <div className="header">
@@ -32,8 +58,8 @@ export default function Header() {
 
             <div className="header_right">
                 <div className="header_user">
-                    <img src="https://i.pinimg.com/originals/6b/0b/7b/6b0b7b1e0b5d8b6d3f9d7d3b9a2f5a3e.jpg" alt="user logo" />
-                    <h4><Link to={`/signin`}>Giriş Yap</Link></h4>
+                    {isLogged ? <div> <button onClick={logOut}>Çıkış yap</button> <h2>{user}</h2> </div> : <Link to={`/signin`}><h4>Giriş Yap</h4></Link> }
+                    
                 </div>
             </div>
         </div>

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { useNavigate, Link } from 'react-router-dom';
 
-
 // Create a single supabase client for interacting with your database
 const supabase = createClient(
   'https://jopuhrloekkmoytnujmb.supabase.co',
@@ -10,29 +9,17 @@ const supabase = createClient(
 );
 
 const SignInForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  async function getSession() {
-    const { user, session, error } = supabase.auth.getSession();
-  
-    if (error) {
-      console.error('Oturum alınamadı:', error.message);
-    } else if (user) {
-      console.log('Giriş yapan kullanıcının bilgileri:', user);
-    } else {
-      console.log('Oturum bilgisi:', session);
-    }
-  }
+  const handleSignIn = async (e) => {
+    e.preventDefault();
 
-
-  const handleSignIn = async () => {
     try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-        })
+      const formData = Object.fromEntries(new FormData(e.target));
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
 
       if (error) {
         alert(error.message);
@@ -44,27 +31,38 @@ const SignInForm = () => {
     }
     await getSession();
     navigate('/');
+
   };
+
+  async function getSession() {
+    const { data: { user } } = await supabase.auth.getUser()
+  
+    if (user) {
+      console.log('Giriş yapan kullanıcının bilgileri:', user);
+    }
+  }
 
   return (
     <>
-    <div className="signUpBackground">
+      <div className="signUpBackground">
         <div className='signUpForm'>
-            <h2>Giriş Yap</h2>
+          <h2>Giriş Yap</h2>
+          <form onSubmit={handleSignIn}>
             <div className="signUpMail">
-                <h3>E-posta:</h3>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <h3>E-posta:</h3>
+              <input type="email" name="email" />
             </div>
             <div className="signUpPassword">
-                <h3>Şifre:</h3>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <h3>Şifre:</h3>
+              <input type="password" name="password" />
             </div>
             <div className='signIn'>
-                <Link to={`/signup`}>Bir hesabın yok mu? <b>Kayıt ol</b></Link>
+              <Link to={`/signup`}>Bir hesabın yok mu? <b>Kayıt ol</b></Link>
             </div>
-        <button onClick={handleSignIn}>Giriş Yap</button>
+            <button type="submit">Giriş Yap</button>
+          </form>
         </div>
-    </div>
+      </div>
     </>
   );
 };

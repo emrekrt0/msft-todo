@@ -9,15 +9,19 @@ const supabase = createClient(
 );
 
 const SignUpForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+
     try {
+      const formData = Object.fromEntries(new FormData(e.target));
       const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: { name: formData.name },
+        }
       });
 
       if (error) {
@@ -33,23 +37,29 @@ const SignUpForm = () => {
 
   return (
     <>
-    <div className="signUpBackground">
+      <div className="signUpBackground">
         <div className='signUpForm'>
-            <h2>Kayıt Ol</h2>
+          <h2>Kayıt Ol</h2>
+          <form onSubmit={handleSignUp}>
+            <div className="signUpName">
+              <h3>İsim:</h3>
+              <input type="text" name="name" />
+            </div>
             <div className="signUpMail">
-                <h3>E-posta:</h3>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <h3>E-posta:</h3>
+              <input type="email" name="email" />
             </div>
             <div className="signUpPassword">
-                <h3>Şifre:</h3>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <h3>Şifre:</h3>
+              <input type="password" name="password" />
             </div>
             <div className='signIn'>
-                <Link to={`/signin`}>Zaten bir hesabın var mı? <b>Giriş yap</b></Link>
+              <Link to={`/signin`}>Zaten bir hesabın var mı? <b>Giriş yap</b></Link>
             </div>
-        <button onClick={handleSignUp}>Kayıt Ol</button>
+            <button type="submit">Kayıt Ol</button>
+          </form>
         </div>
-    </div>
+      </div>
     </>
   );
 };
