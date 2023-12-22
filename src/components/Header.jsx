@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 export default function Header() { 
     return(
         <>
@@ -31,7 +33,7 @@ export default function Header() {
             <div className="header_right">
                 <div className="header_user">
                     <img src="https://i.pinimg.com/originals/6b/0b/7b/6b0b7b1e0b5d8b6d3f9d7d3b9a2f5a3e.jpg" alt="user logo" />
-                    <h4>Username</h4>
+                    <h4><Link to={`/signin`}>Giriş Yap</Link></h4>
                 </div>
             </div>
         </div>

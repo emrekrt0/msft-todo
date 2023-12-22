@@ -50,7 +50,48 @@ input {
   outline: none;
 }
 /* CSS Reset Bitis */
+.signUpBackground {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  background: rgb(64,2,9);
+  background: linear-gradient(90deg, rgba(64,2,9,0.5916473317865429) 0%, rgba(41,41,108,0.5452436194895591) 51%, rgba(0,255,221,0.4895591647331786) 100%);
+}
 
+  .signUpForm {
+  width: 500px;
+  height: 400px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #fff;
+  padding: 50px 50px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.signUpForm h2 {
+  margin-bottom: 20px;
+}
+
+.signUpForm>div input {
+  margin-bottom: 10px;
+  padding: 10px 10px;
+  border-radius: 4px;
+  border-bottom: 1px solid #e1dfdd;
+  width: 100%;
+}
+.signUpForm .signUpPassword {
+  margin-bottom: 20px;
+}
+.signUpForm .signIn {
+  margin-bottom: 20px;
+}
+.signUpForm button {
+  background-color: #cac7c7;
+  padding: 10px 10px;
+  border-radius: 4px;
+}
 .header {
   min-height: 48px;
   max-height: 48px;

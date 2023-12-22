@@ -3,23 +3,34 @@ import ReactDOM from 'react-dom/client'
 import {createBrowserRouter,RouterProvider,} from "react-router-dom"
 import Root from './Root.jsx'
 import './index.css'
-import Important from './Important.jsx'
+import SignUpForm from './SignUp.jsx';
+import SignInForm from './Login.jsx';
+import Important from './Important.jsx';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Root />,
     children: [
       {
-        path: "/important",
+        path: '/important',
         element: <Important />,
       },
     ],
+    
   },
-    ]);
+  {
+    path: '/signin',
+    element: <SignInForm />,
+  },
+  {
+    path: '/signup',
+    element: <SignUpForm />,
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);
