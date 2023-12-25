@@ -6,12 +6,17 @@ import './index.css'
 import SignUpForm from './SignUp.jsx';
 import SignInForm from './Login.jsx';
 import Important from './Important.jsx';
+import Myday from './Myday.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
     children: [
+      {
+        path:'/myday',
+        element: <Myday />,
+      },
       {
         path: 'important',
         element: <Important />,
@@ -29,7 +34,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  
+  <RouterProvider router={router} />
+  
 );
