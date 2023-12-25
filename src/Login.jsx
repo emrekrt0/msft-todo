@@ -25,12 +25,14 @@ const SignInForm = () => {
         alert(error.message);
       } else {
         alert('Başarıyla giriş yaptınız. Anasayfaya yönlendiriliyorsunuz.', data);
+        navigate('/');
       }
     } catch (error) {
       console.error('Bir hata oluştu:', error.message);
     }
     await getSession();
-    navigate('/');
+    
+
 
   };
 

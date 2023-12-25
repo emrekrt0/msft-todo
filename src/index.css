@@ -74,7 +74,7 @@ input {
   margin-bottom: 20px;
 }
 
-.signUpForm>div input {
+form>div input {
   margin-bottom: 10px;
   padding: 10px 10px;
   border-radius: 4px;
@@ -91,6 +91,7 @@ input {
   background-color: #cac7c7;
   padding: 10px 10px;
   border-radius: 4px;
+  height: max-content;
 }
 .header {
   min-height: 48px;
@@ -221,6 +222,7 @@ input {
   box-shadow: 0px 0.3px 0.9px rgba(0,0,0,0.1), 0px 1.6px 3.6px rgba(0,0,0,0.1);
   background-color: #fff;
   margin-top: 50px;
+  margin-bottom: 30px;
 }
 
 .mainBackground .importantHeader .importantHeader-title {
@@ -261,4 +263,21 @@ input {
   padding: 0px 16px;
   display: flex;
   align-items: center;
+}
+.tasks .baseAdd ul {
+  width: 100%;
+} 
+
+.tasks .baseAdd ul li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.box-shadow {
+  box-shadow: 0px 0.3px 0.9px rgba(0,0,0,0.1), 0px 1.6px 3.6px rgba(0,0,0,0.1);
+}
+
+.mb-20 {
+  margin-bottom: 20px;
 }

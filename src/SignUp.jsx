@@ -28,11 +28,12 @@ const SignUpForm = () => {
         alert(error.message);
       } else {
         alert('Başarıyla kayıt oldunuz. Giriş sayfasına yönlendiriliyorsunuz.', data);
+        navigate('/signin');
       }
     } catch (error) {
       console.error('Bir hata oluştu:', error.message);
     }
-    navigate('/signin');
+    
   };
 
   return (

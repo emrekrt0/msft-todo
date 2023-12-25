@@ -25,6 +25,7 @@ export default function Header() {
     async function logOut() {
         await supabase.auth.signOut();
         setUser([]);
+        window.location.reload();
     }
 
     return(
