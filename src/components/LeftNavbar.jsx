@@ -1,11 +1,12 @@
 import { Outlet, Link, NavLink } from "react-router-dom";
+import hamburgerIcon from '../assets/static/menu.svg';
 
 export default function LeftNavbar() {
     return(
         <div className="leftNavBar">
             <div className="leftNavBarTop">
                 <div className="hamburgerMenu">
-                    <img src="./src/assets/static/menu.svg" alt="" />
+                    <img src={hamburgerIcon} alt="" />
                 </div>
                 <div className="lNavbar">
                     <ul className="lNavbarList">

@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {createBrowserRouter,RouterProvider,} from "react-router-dom"
+import {createBrowserRouter,RouterProvider} from "react-router-dom"
 import Root from './Root.jsx'
 import './index.css'
 import SignUpForm from './SignUp.jsx';
@@ -13,11 +13,10 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       {
-        path: '/important',
+        path: 'important',
         element: <Important />,
       },
     ],
-    
   },
   {
     path: '/signin',

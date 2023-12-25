@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import { createClient } from '@supabase/supabase-js';
-
+import settingsIcon from '../assets/static/settings.svg';
+import helpIcon from '../assets/static/help-circle.svg';
+import annIcon from '../assets/static/bullhorn-solid.svg';
+import waffleIcon from '../assets/static/waffle-icon.svg';
 
 const supabase = createClient(
     'https://jopuhrloekkmoytnujmb.supabase.co',
@@ -33,7 +36,7 @@ export default function Header() {
         <div className="header">
             <div className="header_left">
                 <div className="otherApps">
-                    <img src="/waffle-icon.svg" alt="" />
+                    <img src={waffleIcon} alt="" />
                 </div>
             </div>
 
@@ -45,15 +48,15 @@ export default function Header() {
                     <input type="text" placeholder="Search your tasks" />
                 </div>
                 <div className="header_userSettings">
-                    <div className="settingsIcon">
-                        <img src="./src/assets/static/settings.svg" alt=""/>
-                    </div>
-                    <div className="helpIcon">
-                        <img src="./src/assets/static/help-circle.svg" alt=""/>
-                    </div>
-                    <div className="annIcon">
-                        <img src="./src/assets/static/bullhorn-solid.svg" alt=""/>
-                    </div>
+                <div className="settingsIcon">
+                    <img src={settingsIcon} alt=""/>
+                </div>
+                <div className="helpIcon">
+                    <img src={helpIcon} alt=""/>
+                </div>
+                <div className="annIcon">
+                    <img src={annIcon} alt=""/>
+                </div>
                 </div>
             </div>
 
