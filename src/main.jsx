@@ -7,6 +7,8 @@ import SignUpForm from './SignUp.jsx';
 import SignInForm from './Login.jsx';
 import Important from './Important.jsx';
 import Myday from './Myday.jsx';
+import Planned from './Planned.jsx';
+import Tasks from './Tasks.jsx';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +23,14 @@ const router = createBrowserRouter([
         path: 'important',
         element: <Important />,
       },
+      {
+        path: 'planned',
+        element: <Planned />,
+      },
+      {
+        path: 'tasks',
+        element: <Tasks />,
+      }
     ],
   },
   {
