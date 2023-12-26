@@ -198,7 +198,7 @@ const supabase = createClient(
                     </button>
                     <ul>
                         <li className="baseAddInput-important">
-                            <div className="whatTodo">{task.todo} {task.date ? <p className="taskDate">{task.date}</p> : null } </div> {!task.important ? <div className="importantCheck"><button onClick={ () => changeImportant(task.id, task.important)}>💫</button></div> : <button onClick={ () => changeImportant(task.id, task.important)}><div className="importantCheck">⭐</div></button>}
+                            <div className="whatTodo">{task.todo} {task.date ? <p className="taskDate themeBlue">{task.date}</p> : null } </div> {!task.important ? <div className="importantCheck"><button onClick={ () => changeImportant(task.id, task.important)}>💫</button></div> : <button onClick={ () => changeImportant(task.id, task.important)}><div className="importantCheck">⭐</div></button>}
                         </li>
                     </ul>
                 </div>

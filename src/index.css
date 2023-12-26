@@ -303,3 +303,7 @@ form>div input:not([type="date"]) {
   background-color: #fff;
   border-radius: 10px;
 }
+
+.themeBlue {
+  color: #3e69e4;
+}
