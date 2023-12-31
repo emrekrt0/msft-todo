@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { createClient } from '@supabase/supabase-js';
 import settingsIcon from '../assets/static/settings.svg';
@@ -11,10 +11,11 @@ const supabase = createClient(
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvcHVocmxvZWtrbW95dG51am1iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDMyMzg4OTMsImV4cCI6MjAxODgxNDg5M30.fs4Glk5dtLG80qIyN8fBJGw3jlgwwv4ff6n5B32yJ8E'
   );
 
-export default function Header() {
+export default function Header( {onSearch} ) {
     const [isLogged, setIsLogged] = useState(false);
     const [user, setUser] = useState([]);
-
+    const [search, setSearch] = useState('');
+    const navigate = useNavigate();
     
     supabase.auth.onAuthStateChange((event, session) => {
         if (session) {
@@ -31,6 +32,21 @@ export default function Header() {
         window.location.reload();
     }
 
+
+    
+    function handleSearch(e) {
+        e.preventDefault();
+        const searchText = e.target.value;
+        setSearch(searchText);
+        onSearch(search);
+        setTimeout(() => {
+        navigate('/search')
+        }, 1000);
+        if (searchText === '') {
+            navigate('myday')
+        }
+    }
+
     return(
         <>
         <div className="header">
@@ -45,7 +61,7 @@ export default function Header() {
                     <h4>To Do</h4>
                 </div>
                 <div className="header_searchbar">
-                    <input type="text" placeholder="Search your tasks" />
+                    <input type="text" placeholder="Search your tasks" onChange={handleSearch} />
                 </div>
                 <div className="header_userSettings">
                 <div className="settingsIcon">

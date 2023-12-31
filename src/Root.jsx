@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import {React, useState, createContext } from 'react'
 import Header from './components/Header'
 import LeftNavbar from './components/LeftNavbar'
-import { Outlet } from 'react-router-dom'
+import { useNavigate, Outlet } from 'react-router-dom'
 import { createClient } from '@supabase/supabase-js';
+import { useEffect } from 'react';
+
+// import { onSearch } from './components/Header';
 
 const supabase = createClient(
   'https://jopuhrloekkmoytnujmb.supabase.co',
@@ -16,18 +19,60 @@ export async function getSession() {
     console.log('Giriş yapan kullanıcının bilgileri:', user);
   }
 }
+export const SearchContext = createContext();
 
 function App() {
+  const [userId, setUserId] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+
+  useEffect(() => {
+    supabase.auth.onAuthStateChange((event, session) => {
+      setTimeout(() => {
+        if (session) {
+          setUserId(session.user.id);
+        } else {
+          console.log('no user');
+
+        }
+      }, 0);
+    });
+  }, []);
+
+  async function handleSearch(searchText) {
+    if (!userId) {
+      console.error('Kullanıcı girişi yapmadınız.');
+      return;
+    }
+    try {
+      const { data, error } = await supabase
+        .from('todo')
+        .select('*')
+        .eq('user_id', userId)
+        .like('todo', `%${searchText}%`);
+  
+      if (error) {
+        console.error('Arama hatası:', error.message);
+        return;
+      }
+      console.log('Arama sonuçları:', data);
+      setSearchResults(data);
+    } catch (error) {
+      console.error('Bir hata oluştu:', error.message);
+    }
+  }
+
   getSession();
   return (
     <>
-      <Header />
+      <SearchContext.Provider value={searchResults}>
+      <Header onSearch={handleSearch}/>
       <div className="mainContent">
         <LeftNavbar />
         <div id="detail">
-          <Outlet />
+        <Outlet searchResults={searchResults} />
         </div>
       </div>
+      </SearchContext.Provider>
     </>
   )
 }

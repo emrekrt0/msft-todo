@@ -9,6 +9,7 @@ import Important from './Important.jsx';
 import Myday from './Myday.jsx';
 import Planned from './Planned.jsx';
 import Tasks from './Tasks.jsx';
+import Search from './Search.jsx';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: 'tasks',
         element: <Tasks />,
+      },
+      {
+        path: 'search',
+        element: <Search />,
       }
     ],
   },
