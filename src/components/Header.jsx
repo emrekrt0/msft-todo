@@ -38,11 +38,12 @@ export default function Header( {onSearch} ) {
         e.preventDefault();
         const searchText = e.target.value;
         setSearch(searchText);
-        await onSearch(search);
+        onSearch(search);
         navigate('/search')
 
         if (searchText === '') {
-            navigate('/')
+            setSearch('');
+            navigate('myday')
         }
     }
 

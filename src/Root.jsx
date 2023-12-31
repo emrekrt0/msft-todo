@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, createContext } from 'react'
 import Header from './components/Header'
 import LeftNavbar from './components/LeftNavbar'
 import { useNavigate, Outlet } from 'react-router-dom'
@@ -19,6 +19,7 @@ export async function getSession() {
     console.log('Giriş yapan kullanıcının bilgileri:', user);
   }
 }
+export const SearchContext = createContext();
 
 function App() {
   const [userId, setUserId] = useState('');
@@ -63,6 +64,7 @@ function App() {
   getSession();
   return (
     <>
+    <SearchContext.Provider value={searchResults}>
       <Header onSearch={handleSearch}/>
       <div className="mainContent">
         <LeftNavbar />
@@ -70,6 +72,7 @@ function App() {
         <Outlet searchResults={searchResults} />
         </div>
       </div>
+      </SearchContext.Provider>
     </>
   )
 }
