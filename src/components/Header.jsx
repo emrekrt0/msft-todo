@@ -34,16 +34,15 @@ export default function Header( {onSearch} ) {
 
 
     
-    function handleSearch(e) {
+    async function handleSearch(e) {
         e.preventDefault();
         const searchText = e.target.value;
         setSearch(searchText);
-        onSearch(search);
-        setTimeout(() => {
+        await onSearch(search);
         navigate('/search')
-        }, 1000);
+
         if (searchText === '') {
-            navigate('myday')
+            navigate('/')
         }
     }
 

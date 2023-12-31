@@ -1,15 +1,12 @@
-import React, { useContext } from 'react';
-import { SearchContext } from './Root.jsx'; // adjust the path as needed
+import React from 'react';
 
-export default function Search() {
-    const searchResults = useContext(SearchContext) || [];
-    console.log(searchResults);
-    // rest of your component
-
+export default function Search({ searchResults }) {
+    const results = searchResults || [];
+    console.log(results);
     return (
         <div className="search-results">
             <h2>Search Results</h2>
-            {searchResults.map((result) => (
+            {results.map((result) => (
                 <div key={result.id} className="search-result-item">
                     <p>{result.todo}</p>
                     {/* Diğer sonuç bilgilerini buraya ekleyebilirsiniz */}
