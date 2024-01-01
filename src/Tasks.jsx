@@ -127,9 +127,10 @@ const supabase = createClient(
             <div className="tasks mt-50">
             {tasks.map((task) => (
                 <div key={task.id} className="baseAdd addTask box-shadow mb-20 ts">
-                    <button className="baseAdd-icon" type="Button" aria-label="Add a task" tabIndex={"0"} onClick={() => handleDelete(task.id)}>
-                    <svg fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 3a7 7 0 100 14 7 7 0 000-14zm-8 7a8 8 0 1116 0 8 8 0 01-16 0z" fill="blue"></path></svg>
-                    </button>
+                    <span className="checkBox baseAdd-icon" onClick={() => handleDelete(task.id)} aria-label="Delete task">
+                        <svg className="cBox" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 3a7 7 0 100 14 7 7 0 000-14zm-8 7a8 8 0 1116 0 8 8 0 01-16 0z" fill="blue"></path></svg>
+                        <svg class="checkBox-hover themeBlue" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M10 2a8 8 0 110 16 8 8 0 010-16zm0 1a7 7 0 100 14 7 7 0 000-14zm3.36 4.65c.17.17.2.44.06.63l-.06.07-4 4a.5.5 0 01-.64.07l-.07-.06-2-2a.5.5 0 01.63-.77l.07.06L9 11.3l3.65-3.65c.2-.2.51-.2.7 0z" fill="currentColor"></path></svg>
+                    </span>
                     <ul>
                         <li className="baseAddInput-important">
                             <div className="whatTodo">{task.todo} {task.date ? <p className="taskDate themeBlue">{task.date}</p> : null } </div> {!task.important ? <div className="importantCheck"><button onClick={ () => changeImportant(task.id, task.important)}>💫</button></div> : <button onClick={ () => changeImportant(task.id, task.important)}><div className="importantCheck">⭐</div></button>}
