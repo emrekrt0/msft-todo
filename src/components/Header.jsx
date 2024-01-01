@@ -56,7 +56,7 @@ export default function Header( {onSearch} ) {
         return (
           <>
             <ul className={`exitDropdown ${exitDropdown ? "" : "none"}`}>
-            <li><h3><button onClick={logOut}>Çıkış yap</button></h3></li>
+            <li><h3><button onClick={logOut} className="exitButton">Çıkış yap</button></h3></li>
             </ul>
           </>
         );

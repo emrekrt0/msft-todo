@@ -176,12 +176,14 @@ form>div input:not([type="date"]) {
   top: 100%;
   left: 0;
   z-index: 1;
+  width: max-content;
 }
 
-.exitDropdown button {
-  width: max-content;
+.exitDropdown .exitButton {
+  width: auto;
  background-color: #2564cf;
  color: #fff;
+ padding: 10px 10px;
 }
 .header_user .exitInfo button {
   display: flex;
