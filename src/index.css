@@ -210,6 +210,10 @@ form>div input:not([type="date"]) {
   padding: 15px 10px;
   align-items: center;
 }
+.leftNavBar .lNavbar .lNavbarList li:hover {
+  background-color: #e1dfdd;
+  border-radius: 4px;
+}
 .leftNavBar .splitter {
   background-color: #e1dfdd;
   height: 1px;
