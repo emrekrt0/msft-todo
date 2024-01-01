@@ -11,7 +11,6 @@ const supabase = createClient(
 
   export default function Important() {
     const [userID, setUserID] = useState();
-    const [selectedDate, setSelectedDate] = useState();
     const [tasks, setTasks] = useState([]);
   
     useEffect(() => {
@@ -71,7 +70,7 @@ const supabase = createClient(
     }
 
     async function handleSendTask(e) {
-        let todayDate = new Date().toISOString().slice(0, 10);
+        let todayDate = new Date().toISOString();
 
         if (!userID) {
             return;
@@ -79,10 +78,11 @@ const supabase = createClient(
 
         e.preventDefault();
         const formData = Object.fromEntries(new FormData(e.target));
+        let selectedDate;
         if (!formData.date) {
-            setSelectedDate(todayDate);
+           selectedDate = todayDate;
         } else {
-        setSelectedDate(formData.date);
+            selectedDate = formData.date;
         }
         try {
         const { data, error } = await supabase

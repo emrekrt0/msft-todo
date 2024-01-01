@@ -15,6 +15,7 @@ export default function Header( {onSearch} ) {
     const [isLogged, setIsLogged] = useState(false);
     const [user, setUser] = useState([]);
     const [search, setSearch] = useState('');
+    const [exitDropdown, setExitDropdown] = useState(false);
     const navigate = useNavigate();
     
     supabase.auth.onAuthStateChange((event, session) => {
@@ -40,12 +41,26 @@ export default function Header( {onSearch} ) {
         setSearch(searchText);
         onSearch(search);
         navigate('/search')
+        console.log('Aratılan harf:', search);
 
         if (searchText === '') {
             setSearch('');
             navigate('myday')
         }
     }
+
+    function handlExitStyle() {
+        setExitDropdown(!exitDropdown);
+    }
+    function ExitDropdown() {
+        return (
+          <>
+            <ul className={`exitDropdown ${exitDropdown ? "" : "none"}`}>
+            <li><h3><button onClick={logOut}>Çıkış yap</button></h3></li>
+            </ul>
+          </>
+        );
+      }
 
     return(
         <>
@@ -78,8 +93,13 @@ export default function Header( {onSearch} ) {
 
             <div className="header_right">
                 <div className="header_user">
-                    {isLogged ? <div> <button onClick={logOut}>Çıkış yap</button> <h2>{user}</h2> </div> : <Link to={`/signin`}><h4>Giriş Yap</h4></Link> }
-                    
+                    {isLogged ? <div className="exitInfo">
+                        <h2><button onClick={handlExitStyle}><span className="userInfo">{user}</span>
+                        <span className="dropIcon"><span className="fs-14">▼</span></span>
+                        </button></h2>
+                        </div> : <Link to={`/signin`}><h4>Giriş Yap</h4></Link> }
+                    <ExitDropdown/>
+
                 </div>
             </div>
         </div>

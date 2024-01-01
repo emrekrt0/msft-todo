@@ -161,22 +161,46 @@ form>div input:not([type="date"]) {
   align-items: center;
   justify-content: flex-end;
 }
+.header_right .header_user span {
+  color: #fff;
+}
+.exitDropdown.none {
+  display: none;
+}
+.header_user {
+  position: relative;
+}
+
+.exitDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+}
+
+.exitDropdown button {
+  width: max-content;
+ background-color: #2564cf;
+ color: #fff;
+}
+.header_user .exitInfo button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .leftNavBar {
   background-color: #fff;
   width: fit-content;
   box-shadow: #2564cf;
-  height: calc(100vh - 48px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px 10px;
+  height: calc(100vh - 78px);
+  padding: 10px 10px;
+
 }
 .leftNavBar .lNavbar .lNavbarList {
   width: 240px;
 }
-.leftNavBar .lNavbar {
-  padding: 10px 10px;
-}
+
 .leftNavBar .lNavbar .lNavbarList li {
   display: flex;
   gap: 10px;
@@ -187,13 +211,24 @@ form>div input:not([type="date"]) {
 .leftNavBar .splitter {
   background-color: #e1dfdd;
   height: 1px;
+  width: 100%;
   margin-bottom: 10px;
 }
+.leftNavBar .leftNavbarFlex {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+.leftNavBar.none {
+  display: none;
+}
+
 .leftNavBarBottom .officeButtons {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 10px 20px;
 }
 #detail {
   width: 100%;
@@ -306,4 +341,12 @@ form>div input:not([type="date"]) {
 
 .themeBlue {
   color: #3e69e4;
+}
+
+.bg-white {
+  background-color: #fff;
+}
+
+.fs-14 {
+  font-size: 14px;
 }
