@@ -481,4 +481,8 @@ form>div input:not([type="date"]) {
   padding: 0px 10px;
   min-height: 40px;
 }
+.leftNavBarBottom .officeButtons svg{
+  max-width: 14px;
+  max-height: 14px;
+}
 }
