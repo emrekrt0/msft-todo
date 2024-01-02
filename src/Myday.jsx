@@ -170,7 +170,7 @@ const supabase = createClient(
         addNotification({
             native: true,
             title: 'Hatırlatıcı açıldı',
-            message: 'Hatırlatıcıyı başarıyla aktif edildiniz. 2 saat sonra bildirim alacaksınız.'
+            message: 'Hatırlatıcıyı başarıyla aktif edildiniz. 5 dakika sonra bildirim alacaksınız.'
         });
         setTimeout(() => {
             addNotification({
@@ -178,7 +178,7 @@ const supabase = createClient(
                 title: 'Hatırlatıcı',
                 message: 'Task hatırlatıcısı'
             });
-        },60000)
+        },300000)
     }
 
     return(
@@ -199,15 +199,15 @@ const supabase = createClient(
                 <div className="choices">
                     <div className="taskCreation-entrybar">
                         <div className="dateButton-container">
-                            <input type="date" name="date" className="dateInput" />
+                            <input type="date" name="date" className="dateInput" title="Tarih ekle"/>
                         </div>
                         <div className="reminderButton-container">
-                            <button className="reminderButton" type="button" onClick={nativeNotifaction}>
+                            <button className="reminderButton" type="button" title="5 Dakika sonra anımsat" onClick={nativeNotifaction}>
                                 <svg fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a5.92 5.92 0 015.98 5.36l.02.22V11.4l.92 2.22a1 1 0 01.06.17l.01.08.01.13a1 1 0 01-.75.97l-.11.02L16 15h-3.5v.17a2.5 2.5 0 01-5 0V15H4a1 1 0 01-.26-.03l-.13-.04a1 1 0 01-.6-1.05l.02-.13.05-.13L4 11.4V7.57A5.9 5.9 0 0110 2zm1.5 13h-3v.15a1.5 1.5 0 001.36 1.34l.14.01c.78 0 1.42-.6 1.5-1.36V15zM10 3a4.9 4.9 0 00-4.98 4.38L5 7.6V11.5l-.04.2L4 14h12l-.96-2.3-.04-.2V7.61A4.9 4.9 0 0010 3z" fill="currentColor"></path></svg>
                             </button>
                         </div>
                         <div className="repeatButton-container">
-                            <button className="repeatButton" type="button">
+                            <button className="repeatButton" type="button" title="Tekrarlayıcı ekle">
                                 <svg fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M16.5 6.67a.5.5 0 01.3.1l.08.07.01.02A5 5 0 0113.22 15L13 15H6.7l1.65 1.65c.18.17.2.44.06.63l-.06.07a.5.5 0 01-.63.06l-.07-.06-2.5-2.5a.5.5 0 01-.06-.63l.06-.07 2.5-2.5a.5.5 0 01.76.63l-.06.07L6.72 14h.14L7 14h6a4 4 0 003.11-6.52.5.5 0 01.39-.81zm-4.85-4.02a.5.5 0 01.63-.06l.07.06 2.5 2.5.06.07a.5.5 0 010 .56l-.06.07-2.5 2.5-.07.06a.5.5 0 01-.56 0l-.07-.06-.06-.07a.5.5 0 010-.56l.06-.07L13.28 6h-.14L13 6H7a4 4 0 00-3.1 6.52c.06.09.1.2.1.31a.5.5 0 01-.9.3A4.99 4.99 0 016.77 5h6.52l-1.65-1.65-.06-.07a.5.5 0 01.06-.63z" fill="currentColor"></path></svg>
                             </button>
                         </div>

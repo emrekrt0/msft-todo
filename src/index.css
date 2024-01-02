@@ -383,3 +383,102 @@ form>div input:not([type="date"]) {
   font-size: 14px;
 }
 
+@media (max-width:923px) {
+  .header .header_searchbar{
+     max-width: 250px;
+  }
+  .header .header_right .header_user {
+    font-size: 10px;
+  }
+  .header .header_right .header_user span {
+    font-size: 10px;
+  }
+  .header_center .header_userSettings {
+    gap: 0px;
+  }
+  .header_userSettings>div {
+    padding: 12px 12px;
+  }
+  .leftNavBar {
+    padding: 5px 5px;
+  }
+  .leftNavBar .lNavbar .lNavbarList {
+    width: 160px;
+  }
+  .leftNavBar .lNavbar .lNavbarList li {
+    padding: 10px 5px;
+  }
+}
+
+@media(max-width: 564px){
+  .header .header_searchbar{
+    max-width: 200px;
+ }
+ .header .header_right .header_user {
+   font-size: 10px;
+ }
+ .header_center .header_userSettings {
+   gap: 0px;
+ }
+ .header_userSettings> .helpIcon , .annIcon {
+   display: none;
+ }
+ .leftNavBar {
+   padding: 5px 5px;
+ }
+ .leftNavBar .lNavbar .lNavbarList {
+   width: 120px;
+ }
+ .leftNavBar .lNavbar .lNavbarList li {
+   padding: 10px 5px;
+   font-size: 15px;
+ }
+ .leftNavBarBottom .officeButtons {
+   padding: 0;
+ }
+}
+@media(max-width: 575px){
+  .header .header_searchbar{
+    max-width: 140px;
+ }
+ .header .header_searchbar input{
+  width: 140px;
+  font-size: 12px;
+}
+.leftNavBar .lNavbar .lNavbarList {
+  width: 80px;
+}
+.leftNavBar .lNavbar .lNavbarList li {
+  padding: 10px 5px;
+  font-size: 10px;
+}
+.leftNavBar .lNavbar .lNavbarList li svg {
+  max-width: 14px;
+  max-height: 14px;
+}
+.header .header_right .header_user {
+  font-size: 10px;
+}
+.header .header_right .header_user span {
+  font-size: 10px;
+}
+.addNewList {
+  font-size: 10px;
+}
+.mainContent .mainBackground {
+  padding: 20px 20px;
+}
+.mainContent .mainBackground .addTaskParent {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-size: 12px;
+}
+.baseAdd.addTask {
+  padding: 0px 10px;
+  min-height: 40px;
+}
+.addTaskParent .choices .taskCreation-entrybar {
+  padding: 0px 10px;
+  min-height: 40px;
+}
+}
