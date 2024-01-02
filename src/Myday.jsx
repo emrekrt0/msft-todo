@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { createClient } from '@supabase/supabase-js';
 import { getSession } from "./Root";
+import addNotification from "react-push-notification";
 
 
 const supabase = createClient(
@@ -12,6 +13,12 @@ const supabase = createClient(
   export default function Myday() {
     const [userID, setUserID] = useState();
     const [tasks, setTasks] = useState([]);
+    const [dateTime, setDateTime] = useState(new Date());
+
+    const scheduleNotification = () => {
+      // Schedule your notification here
+      console.log(`Notification scheduled for ${dateTime}`);
+    };
   
     useEffect(() => {
       supabase.auth.onAuthStateChange((event, session) => {
@@ -95,7 +102,16 @@ const supabase = createClient(
             console.log(error.message); 
             }
         } else {    
-            alert("Görevi eklendi");
+            await addNotification({
+                title: 'Task başarıyla eklendi',
+                subtitle: 'Taskınız başarıyla eklendi',
+                message: `${formData.todo}`,
+                backgroundTop: '#2564cf',
+                backgroundBottom: '#0f2e64', 
+                colorTop: 'white', 
+                colorBottom: 'white',  
+            });
+            
             e.target.reset();
         }
      } catch (error) {
@@ -115,6 +131,11 @@ const supabase = createClient(
                 alert("Görev silinirken bir hata oluştu.");
                 console.error('Silme hatası:', error.message);
             } else {
+                addNotification({
+                    theme: 'light',
+                    title: "Görev başarıyla silindi.",
+                    subtitle: "Görevinizi sildiniz.",
+                  })
                 getTasks();
             }
         } catch (error) {
@@ -135,11 +156,30 @@ const supabase = createClient(
         if (error) {
             alert(error.message);
         } else {
-            console.log(data);
+            addNotification({
+                theme: 'light',
+                title: "Todo'nuzun önemli olarak işaretlendi",
+                subtitle: "Todo'unuz Important'a aktarıldı",
+            })
         }
     } catch (error) {
         console.error('Bir hata oluştu:', error.message);
     }}
+
+    const nativeNotifaction = () => {
+        addNotification({
+            native: true,
+            title: 'Hatırlatıcı açıldı',
+            message: 'Hatırlatıcıyı başarıyla aktif edildiniz. 2 saat sonra bildirim alacaksınız.'
+        });
+        setTimeout(() => {
+            addNotification({
+                native: true,
+                title: 'Hatırlatıcı',
+                message: 'Task hatırlatıcısı'
+            });
+        },60000)
+    }
 
     return(
         <div className="mainBackground">
@@ -162,7 +202,7 @@ const supabase = createClient(
                             <input type="date" name="date" className="dateInput" />
                         </div>
                         <div className="reminderButton-container">
-                            <button className="reminderButton" type="button">
+                            <button className="reminderButton" type="button" onClick={nativeNotifaction}>
                                 <svg fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a5.92 5.92 0 015.98 5.36l.02.22V11.4l.92 2.22a1 1 0 01.06.17l.01.08.01.13a1 1 0 01-.75.97l-.11.02L16 15h-3.5v.17a2.5 2.5 0 01-5 0V15H4a1 1 0 01-.26-.03l-.13-.04a1 1 0 01-.6-1.05l.02-.13.05-.13L4 11.4V7.57A5.9 5.9 0 0110 2zm1.5 13h-3v.15a1.5 1.5 0 001.36 1.34l.14.01c.78 0 1.42-.6 1.5-1.36V15zM10 3a4.9 4.9 0 00-4.98 4.38L5 7.6V11.5l-.04.2L4 14h12l-.96-2.3-.04-.2V7.61A4.9 4.9 0 0010 3z" fill="currentColor"></path></svg>
                             </button>
                         </div>
@@ -184,7 +224,7 @@ const supabase = createClient(
                 <div key={task.id} className="baseAdd addTask box-shadow mb-20 ts">
                     <span className="checkBox baseAdd-icon" onClick={() => handleDelete(task.id)} aria-label="Delete task">
                         <svg className="cBox" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 3a7 7 0 100 14 7 7 0 000-14zm-8 7a8 8 0 1116 0 8 8 0 01-16 0z" fill="blue"></path></svg>
-                        <svg class="checkBox-hover themeBlue" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M10 2a8 8 0 110 16 8 8 0 010-16zm0 1a7 7 0 100 14 7 7 0 000-14zm3.36 4.65c.17.17.2.44.06.63l-.06.07-4 4a.5.5 0 01-.64.07l-.07-.06-2-2a.5.5 0 01.63-.77l.07.06L9 11.3l3.65-3.65c.2-.2.51-.2.7 0z" fill="currentColor"></path></svg>
+                        <svg className="checkBox-hover themeBlue" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M10 2a8 8 0 110 16 8 8 0 010-16zm0 1a7 7 0 100 14 7 7 0 000-14zm3.36 4.65c.17.17.2.44.06.63l-.06.07-4 4a.5.5 0 01-.64.07l-.07-.06-2-2a.5.5 0 01.63-.77l.07.06L9 11.3l3.65-3.65c.2-.2.51-.2.7 0z" fill="currentColor"></path></svg>
                     </span>
                     <ul>
                         <li className="baseAddInput-important">

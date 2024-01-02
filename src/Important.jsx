@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { createClient } from '@supabase/supabase-js';
 import { getSession } from "./Root";
+import addNotification from "react-push-notification";
 
 
 const supabase = createClient(
@@ -94,7 +95,15 @@ const supabase = createClient(
             console.log(error.message); 
             }
         } else {    
-            alert("Görevi eklendi");
+            await addNotification({
+                title: 'Task başarıyla eklendi',
+                subtitle: 'Taskınız başarıyla eklendi',
+                message: `${formData.todo}`,
+                backgroundTop: '#2564cf',
+                backgroundBottom: '#0f2e64', 
+                colorTop: 'white', 
+                colorBottom: 'white',
+            });
             e.target.reset();
         }
      } catch (error) {
@@ -114,6 +123,11 @@ const supabase = createClient(
                 alert("Görev silinirken bir hata oluştu.");
                 console.error('Silme hatası:', error.message);
             } else {
+                addNotification({
+                    theme: 'light',
+                    title: "Görev başarıyla silindi.",
+                    subtitle: "Görevinizi sildiniz.",
+                  })
                 getTasks();
             }
         } catch (error) {
@@ -133,7 +147,11 @@ const supabase = createClient(
         if (error) {
             alert(error.message);
         } else {
-            console.log(data);
+            addNotification({
+                theme: 'light',
+                title: "Todo'nuzun önemliliği kaldırıldı",
+                subtitle: "Todo'unuz My Day'e aktarıldı",
+            })
         }
     } catch (error) {
         console.error('Bir hata oluştu:', error.message);
@@ -183,7 +201,7 @@ const supabase = createClient(
                 <div key={task.id} className="baseAdd addTask box-shadow mb-20 ts">
                     <span className="checkBox baseAdd-icon" onClick={() => handleDelete(task.id)} aria-label="Delete task">
                         <svg className="cBox" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 3a7 7 0 100 14 7 7 0 000-14zm-8 7a8 8 0 1116 0 8 8 0 01-16 0z" fill="blue"></path></svg>
-                        <svg class="checkBox-hover themeBlue" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M10 2a8 8 0 110 16 8 8 0 010-16zm0 1a7 7 0 100 14 7 7 0 000-14zm3.36 4.65c.17.17.2.44.06.63l-.06.07-4 4a.5.5 0 01-.64.07l-.07-.06-2-2a.5.5 0 01.63-.77l.07.06L9 11.3l3.65-3.65c.2-.2.51-.2.7 0z" fill="currentColor"></path></svg>
+                        <svg className="checkBox-hover themeBlue" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M10 2a8 8 0 110 16 8 8 0 010-16zm0 1a7 7 0 100 14 7 7 0 000-14zm3.36 4.65c.17.17.2.44.06.63l-.06.07-4 4a.5.5 0 01-.64.07l-.07-.06-2-2a.5.5 0 01.63-.77l.07.06L9 11.3l3.65-3.65c.2-.2.51-.2.7 0z" fill="currentColor"></path></svg>
                     </span>
                     <ul>
                         <li className="baseAddInput-important">

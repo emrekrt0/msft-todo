@@ -4,6 +4,7 @@ import LeftNavbar from './components/LeftNavbar'
 import { useNavigate, Outlet } from 'react-router-dom'
 import { createClient } from '@supabase/supabase-js';
 import { useEffect } from 'react';
+import { Notifications } from 'react-push-notification';
 
 // import { onSearch } from './components/Header';
 
@@ -67,6 +68,7 @@ function App() {
     <SearchContext.Provider value={searchResults}>
       <Header onSearch={handleSearch}/>
       <div className="mainContent">
+        <Notifications position='top-right'/>
         <LeftNavbar />
         <div id="detail">
         <Outlet searchResults={searchResults} />

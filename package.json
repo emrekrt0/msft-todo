@@ -13,6 +13,7 @@
     "@supabase/supabase-js": "^2.39.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-push-notification": "^1.5.4",
     "react-router-dom": "^6.19.0"
   },
   "devDependencies": {

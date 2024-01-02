@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { createClient } from '@supabase/supabase-js';
 import { getSession } from "./Root";
 import { useOutlet } from "react-router-dom";
+import addNotification from "react-push-notification";
 
 const supabase = createClient(
     'https://jopuhrloekkmoytnujmb.supabase.co',
@@ -13,8 +14,6 @@ const supabase = createClient(
     const [userID, setUserID] = useState();
     const [selectedDate, setSelectedDate] = useState();
     const [tasks, setTasks] = useState([]);
-    const [showSearch, setShowSearch] = useState(false);
-    const [filteredTasks, setFilteredTasks] = useState([]);
   
     useEffect(() => {
       supabase.auth.onAuthStateChange((event, session) => {
@@ -82,6 +81,11 @@ const supabase = createClient(
                 alert("Görev silinirken bir hata oluştu.");
                 console.error('Silme hatası:', error.message);
             } else {
+              addNotification({
+                theme: 'light',
+                title: "Görev başarıyla silindi.",
+                subtitle: "Görevinizi sildiniz.",
+              })
                 getTasks();
             }
         } catch (error) {
@@ -102,19 +106,17 @@ const supabase = createClient(
             if (error) {
                 alert(error.message);
             } else {
-                console.log(data);
+                addNotification({
+                  theme: 'light',
+                  title: `Önemlilik başarıyla değiştirildi!`,
+                  subtitle: `Önemlilik: ${!taskImportant ? 'Önemli' : 'Önemsiz'}`,
+                })
                 getTasks();
             }
         } catch (error) {
             console.error('Bir hata oluştu:', error.message);
         }
     }
-    
-    // function search() {
-    //   const outlet = useOutlet();
-    //   const searchResults = outlet.props.searchResults;
-    //   console.log(searchResults); // Arama sonucunu console'da gösterin
-    //  }
 
     function TaskResult() {
       return(
@@ -145,7 +147,7 @@ const supabase = createClient(
 
     return(
         <>
-        {showSearch ? <SearchResult /> : <TaskResult />}
+        <TaskResult />
         </>
     )
 }

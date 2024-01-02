@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { useNavigate, Link } from 'react-router-dom';
+import { Notifications } from 'react-push-notification';
+import addNotification from 'react-push-notification';
 
 // Create a single supabase client for interacting with your database
 const supabase = createClient(
@@ -24,7 +26,11 @@ function SignInForm() {
       if (error) {
         alert(error.message);
       } else {
-        alert('Başarıyla giriş yaptınız. Anasayfaya yönlendiriliyorsunuz.', data);
+        await addNotification({
+          theme: 'light',
+          title: "Başarıyla giriş yaptınız.",
+          subtitle: "Anasayfaya yönlendiriliyorsunuz.",
+      })
         navigate('/');
       }
     } catch (error) {
@@ -47,6 +53,7 @@ function SignInForm() {
   return (
     <>
       <div className="signUpBackground">
+      <Notifications position='top-right'/>
         <div className='signUpForm'>
           <h2>Giriş Yap</h2>
           <form onSubmit={handleSignIn}>
