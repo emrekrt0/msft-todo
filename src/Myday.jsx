@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { createClient } from '@supabase/supabase-js';
 import { getSession } from "./Root";
 import addNotification from "react-push-notification";
+import emptyStars from './assets/static/emptyStars.svg';
 
 
 const supabase = createClient(
@@ -252,7 +253,7 @@ const supabase = createClient(
                     </span>
                     <ul>
                         <li className="baseAddInput-important">
-                            <div className="whatTodo">{task.todo} </div> <div className="importantCheck"> {task.repeat > 1 ? `Kalan tekrar: ${task.repeat}` : ''} {!task.important ? <button onClick={ () => changeImportant(task.id)}>💫</button> : null} </div>
+                            <div className="whatTodo">{task.todo} </div> <div className="importantCheck"> {task.repeat > 1 ? `Kalan tekrar: ${task.repeat}` : ''} {!task.important ? <img src={emptyStars} onClick={ () => changeImportant(task.id)}></img> : null} </div>
                         </li>
                     </ul>
                 </div>

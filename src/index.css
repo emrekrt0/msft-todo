@@ -302,6 +302,7 @@ form>div input:not([type="date"]) {
   display: flex;
   padding: 0px 16px;
   min-height: 52px;
+  gap: 8px;
 }
 .choices .addButton-container button {
   background-color: #cac7c7;
@@ -326,6 +327,7 @@ form>div input:not([type="date"]) {
 }
 .dateButton-container input[type="date"] {
   background-color: #ffffff00;
+  border: 1px solid #e1dfdd;
 }
 .whatTodo {
   display: flex;
@@ -342,6 +344,11 @@ form>div input:not([type="date"]) {
   display: flex;
   align-items: center;
   gap: 5px;
+}
+.importantCheck img {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
 .cBox {
   position: relative;
