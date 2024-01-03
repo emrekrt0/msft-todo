@@ -6,7 +6,6 @@ import { createClient } from '@supabase/supabase-js';
 import { useEffect } from 'react';
 import { Notifications } from 'react-push-notification';
 
-// import { onSearch } from './components/Header';
 
 const supabase = createClient(
   'https://jopuhrloekkmoytnujmb.supabase.co',
@@ -41,7 +40,7 @@ function App() {
 
   async function handleSearch(searchText) {
     if (!userId) {
-      console.error('Kullanıcı girişi yapmadınız.');
+      alert('Kullanıcı girişi yapmadınız.');
       return;
     }
     try {

@@ -14,6 +14,7 @@ const supabase = createClient(
     const [userID, setUserID] = useState();
     const [tasks, setTasks] = useState([]);
     const [dateTime, setDateTime] = useState(new Date());
+    const [repeatNumber, setRepeatNumber] = useState(0);
 
     const scheduleNotification = () => {
       // Schedule your notification here
@@ -80,7 +81,13 @@ const supabase = createClient(
         if (!userID) {
             return;
         }
-
+        const repeatNum = e.target.repeat.value;
+        if (!repeatNum) {
+            setRepeatNumber(0);
+        } else {
+            setRepeatNumber(repeatNum);
+            console.log(repeatNumber);
+        }
         e.preventDefault();
         const formData = Object.fromEntries(new FormData(e.target));
         try {
@@ -90,7 +97,8 @@ const supabase = createClient(
             todo: formData.todo,
             user_id: userID,
             important: false,
-            date: null
+            date: null,
+            repeat: repeatNum,
         })
         .select()
 
@@ -120,13 +128,19 @@ const supabase = createClient(
     }
     
 
-    async function handleDelete(taskId) {
+    async function handleDelete(taskId, repeat) {
+        if (repeat > 0) {
+            const { data, error } = await supabase
+            .from('todo')
+            .update({ repeat: repeat - 1 })
+            .eq('id', taskId)
+            .select();
+        } else {
         try {
             const { error } = await supabase
                 .from('todo')
                 .delete()
                 .eq('id', taskId);
-    
             if (error) {
                 alert("Görev silinirken bir hata oluştu.");
                 console.error('Silme hatası:', error.message);
@@ -141,7 +155,7 @@ const supabase = createClient(
         } catch (error) {
             console.error('Bir hata oluştu:', error.message);
         }
-    }
+    }}
 
     async function changeImportant(taskId) {
         try {
@@ -158,7 +172,7 @@ const supabase = createClient(
         } else {
             addNotification({
                 theme: 'light',
-                title: "Todo'nuzun önemli olarak işaretlendi",
+                title: "Gö önemli olarak işaretlendi",
                 subtitle: "Todo'unuz Important'a aktarıldı",
             })
         }
@@ -210,6 +224,12 @@ const supabase = createClient(
                             <button className="repeatButton" type="button" title="Tekrarlayıcı ekle">
                                 <svg fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M16.5 6.67a.5.5 0 01.3.1l.08.07.01.02A5 5 0 0113.22 15L13 15H6.7l1.65 1.65c.18.17.2.44.06.63l-.06.07a.5.5 0 01-.63.06l-.07-.06-2.5-2.5a.5.5 0 01-.06-.63l.06-.07 2.5-2.5a.5.5 0 01.76.63l-.06.07L6.72 14h.14L7 14h6a4 4 0 003.11-6.52.5.5 0 01.39-.81zm-4.85-4.02a.5.5 0 01.63-.06l.07.06 2.5 2.5.06.07a.5.5 0 010 .56l-.06.07-2.5 2.5-.07.06a.5.5 0 01-.56 0l-.07-.06-.06-.07a.5.5 0 010-.56l.06-.07L13.28 6h-.14L13 6H7a4 4 0 00-3.1 6.52c.06.09.1.2.1.31a.5.5 0 01-.9.3A4.99 4.99 0 016.77 5h6.52l-1.65-1.65-.06-.07a.5.5 0 01.06-.63z" fill="currentColor"></path></svg>
                             </button>
+                            <select className="repeatSelect" name="repeat" title="Tekrarlayıcı ekle">
+                                <option value="0" defaultValue={0}>0</option>
+                                <option value="2">2</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                            </select>
                         </div>
                     </div>
                     <div className="addButton-container">
@@ -222,13 +242,13 @@ const supabase = createClient(
             <div className="tasks">
             {tasks.map((task) => (
                 <div key={task.id} className="baseAdd addTask box-shadow mb-20 ts">
-                    <span className="checkBox baseAdd-icon" onClick={() => handleDelete(task.id)} aria-label="Delete task">
+                    <span className="checkBox baseAdd-icon" onClick={() => handleDelete(task.id,task.repeat)} aria-label="Delete task">
                         <svg className="cBox" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 3a7 7 0 100 14 7 7 0 000-14zm-8 7a8 8 0 1116 0 8 8 0 01-16 0z" fill="blue"></path></svg>
                         <svg className="checkBox-hover themeBlue" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M10 2a8 8 0 110 16 8 8 0 010-16zm0 1a7 7 0 100 14 7 7 0 000-14zm3.36 4.65c.17.17.2.44.06.63l-.06.07-4 4a.5.5 0 01-.64.07l-.07-.06-2-2a.5.5 0 01.63-.77l.07.06L9 11.3l3.65-3.65c.2-.2.51-.2.7 0z" fill="currentColor"></path></svg>
                     </span>
                     <ul>
                         <li className="baseAddInput-important">
-                            <div className="whatTodo">{task.todo} </div> {!task.important ? <div className="importantCheck"><button onClick={ () => changeImportant(task.id)}>💫</button></div> : null}
+                            <div className="whatTodo">{task.todo} </div>{task.repeat > 0 ? task.repeat : ''} {!task.important ? <div className="importantCheck"><button onClick={ () => changeImportant(task.id)}>💫</button></div> : null}
                         </li>
                     </ul>
                 </div>
