@@ -107,18 +107,25 @@ form>div input:not([type="date"]) {
   gap: 5px;
   justify-content: space-between;
   background-color: #2564cf;
+  margin-bottom: 5px;
 }
 
 .header img {
-  max-height: 16px;
-  max-width: 16px;
+  max-height: 20px;
+  max-width: 20px;
 }
 .header .header_left {
   display: flex;
-  justify-content: flex-start;
-  margin-left: 15px;
+  justify-content: center;
+  align-items: center;
 }
-
+.header .header_left button {
+  height: 48px;
+  width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .header .header_center {
   display: flex;
   gap: 20px;
@@ -133,14 +140,12 @@ form>div input:not([type="date"]) {
   display: flex;
   justify-content: space-around;
   max-width: 400px;
-  background: #fff;
-  background: var(#fff);
   margin: 8px auto;
   height: 32px;
 }
 .header .header_searchbar input {
   width: 400px;
-  border: none;
+  border-radius: 8px;
   outline: none;
   font-size: 14px;
   padding: 0 10px;
@@ -200,11 +205,14 @@ form>div input:not([type="date"]) {
   align-items: center;
   gap: 8px;
 }
+.hamburgerMenu {
+  padding: 0px 0px 0px 20px;
+}
 
 .leftNavBar {
   background-color: #fff;
   width: fit-content;
-  box-shadow: #2564cf;
+  box-shadow: 0px 0.3px 0.9px rgba(0,0,0,0.1), 0px 1.6px 3.6px rgba(0,0,0,0.1);
   min-height: calc(100vh - 85px);
   height: 100%;
   padding: 10px 10px;
@@ -213,8 +221,12 @@ form>div input:not([type="date"]) {
 .leftNavBar .lNavbar .lNavbarList {
   width: 240px;
 }
-
-.leftNavBar .lNavbar .lNavbarList li {
+.active {
+  background-color: #d5e1eb;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.leftNavBar .lNavbar .lNavbarList li>a {
   display: flex;
   gap: 10px;
   flex: none;
@@ -257,7 +269,7 @@ form>div input:not([type="date"]) {
 
   max-width: 100%; 
   margin-inline: auto; 
-  padding: 50px 50px;
+  padding: 45px 50px;
 }
 
 
@@ -339,9 +351,14 @@ form>div input:not([type="date"]) {
   display: flex;
   flex-direction: row;
   gap: 15px;
+  align-items: center;
 }
 .whatTodo .taskDate {
+  font-size: 12px;
   font-weight: bold;
+  border: 1px solid #e1dfdd;
+  background-color: #eeeceb;
+  padding: 3px 3px;
 }
 .repeatSelect.none {
   display: none;
@@ -407,6 +424,9 @@ form>div input:not([type="date"]) {
 
 .fs-14 {
   font-size: 14px;
+}
+.fs-12 {
+  font-size: 12px;
 }
 
 @media (max-width:923px) {

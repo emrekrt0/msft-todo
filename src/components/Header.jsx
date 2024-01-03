@@ -5,6 +5,9 @@ import settingsIcon from '../assets/static/settings.svg';
 import helpIcon from '../assets/static/help-circle.svg';
 import annIcon from '../assets/static/bullhorn-solid.svg';
 import waffleIcon from '../assets/static/waffle-icon.svg';
+import dotGrid from '../assets/static/dot-grid.svg';
+import { NavLink } from "react-router-dom";
+
 
 const supabase = createClient(
     'https://jopuhrloekkmoytnujmb.supabase.co',
@@ -56,7 +59,7 @@ export default function Header( {onSearch} ) {
         return (
           <>
             <ul className={`exitDropdown ${exitDropdown ? "" : "none"}`}>
-            <li><h5><button onClick={logOut} className="exitButton">Çıkış yap</button></h5></li>
+            <li><h4><button onClick={logOut} className="exitButton">Çıkış yap</button></h4></li>
             </ul>
           </>
         );
@@ -67,13 +70,13 @@ export default function Header( {onSearch} ) {
         <div className="header">
             <div className="header_left">
                 <div className="otherApps">
-                    <img src={waffleIcon} alt="" />
+                    <NavLink to="/"><button><img src={dotGrid} alt="" /></button></NavLink>
                 </div>
             </div>
 
             <div className="header_center">
                 <div className="header_text">
-                    <h4>To Do</h4>
+                    <h3>To Do</h3>
                 </div>
                 <div className="header_searchbar">
                     <input type="text" placeholder="Search your tasks" onChange={handleSearch} />
@@ -94,9 +97,9 @@ export default function Header( {onSearch} ) {
             <div className="header_right">
                 <div className="header_user">
                     {isLogged ? <div className="exitInfo">
-                        <h2><button onClick={handlExitStyle}><span className="userInfo">{user}</span>
-                        <span className="dropIcon"><span className="fs-14">▼</span></span>
-                        </button></h2>
+                        <h3><button onClick={handlExitStyle}><span className="userInfo">{user}</span>
+                        <span className="dropIcon"><span className="fs-12">▼</span></span>
+                        </button></h3>
                         </div> : <Link to={`/signin`}><h4>Giriş Yap</h4></Link> }
                     <ExitDropdown/>
 

@@ -12,6 +12,7 @@ import supabase from './functions/supabase.jsx'
     const [dateTime, setDateTime] = useState(new Date());
     const [repeatNumber, setRepeatNumber] = useState(0);
     const [repeatDropdown, setRepeatDropdown] = useState(false);
+    const [editButton, setEditButton] = useState(false);
 
     const scheduleNotification = () => {
       // Schedule your notification here
@@ -196,6 +197,37 @@ import supabase from './functions/supabase.jsx'
             setRepeatDropdown(!repeatDropdown);
     }
     
+    function handleEditTodo (e) {
+        setEditButton(!editButton);
+        console.log(editButton);
+    }
+    async function sendNewTodo(e,taskId) {
+        e.preventDefault();
+        const formData = Object.fromEntries(new FormData(e.target));
+        try {
+            const { data, error } = await supabase
+            .from('todo')
+            .update({  
+                todo: formData.editedTodo,
+            })
+            .eq('id', taskId)
+            .select()
+    
+            if (error) {
+                alert(error.message);
+            } else {
+                setEditButton(!editButton);
+                addNotification({
+                    theme: 'light',
+                    title: "Your task successfully edited",
+                    subtitle: `Your task successfully edited to ${formData.editedTodo}`,
+                })
+            }
+        } catch (error) {
+            console.error('Bir hata oluştu:', error.message);
+        }}
+    
+
     return(
         <div className="mainBackground">
             <div className="importantHeader">
@@ -249,7 +281,15 @@ import supabase from './functions/supabase.jsx'
                     </span>
                     <ul>
                         <li className="baseAddInput-important">
-                            <div className="whatTodo">{task.todo} </div>  <div className="impRepChecker"> {task.repeat > 1 ? <p>Kalan tekrar: {task.repeat}</p> : ''} {!task.important ? <div className="importantCheck"><img src={emptyStars} onClick={() => changeImportant(task.id)} title="Add to important"></img></div> : null} </div>
+                            <div className="whatTodo">{!editButton ? task.todo : 
+                                <form onSubmit={ (e) => sendNewTodo(e, task.id)}><input className="baseAddInput-important" type="text" maxLength={"255"} placeholder="Add a task" tabIndex={"0"} autoComplete="off" name="editedTodo" disabled={!userID} defaultValue={task.todo}/></form>}
+                            </div>  
+                                <div className="impRepChecker"> 
+                                    <div className="editTodo">
+                                        <button onClick={() => {handleEditTodo(task.id)}}>🖋️</button>
+                                    </div> 
+                                    {task.repeat > 1 ? <p>Kalan tekrar: {task.repeat}</p> : ''} 
+                                    {!task.important ? <div className="importantCheck"><img src={emptyStars} onClick={() => changeImportant(task.id)} title="Add to important"></img></div> : null} </div>
                         </li>
                     </ul>
                 </div>
