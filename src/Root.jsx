@@ -2,15 +2,9 @@ import { useState, createContext } from 'react'
 import Header from './components/Header'
 import LeftNavbar from './components/LeftNavbar'
 import { useNavigate, Outlet } from 'react-router-dom'
-import { createClient } from '@supabase/supabase-js';
 import { useEffect } from 'react';
 import { Notifications } from 'react-push-notification';
-
-
-const supabase = createClient(
-  'https://jopuhrloekkmoytnujmb.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvcHVocmxvZWtrbW95dG51am1iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDMyMzg4OTMsImV4cCI6MjAxODgxNDg5M30.fs4Glk5dtLG80qIyN8fBJGw3jlgwwv4ff6n5B32yJ8E'
-);
+import  supabase  from './functions/supabase.jsx'
 
 export async function getSession() {
   const { data: { user } } = await supabase.auth.getUser()

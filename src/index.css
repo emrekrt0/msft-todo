@@ -200,7 +200,8 @@ form>div input:not([type="date"]) {
   background-color: #fff;
   width: fit-content;
   box-shadow: #2564cf;
-  height: calc(100vh - 78px);
+  min-height: calc(100vh - 85px);
+  height: 100%;
   padding: 10px 10px;
 
 }
@@ -259,7 +260,7 @@ form>div input:not([type="date"]) {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap; /* Allow content to wrap */
+  flex-wrap: wrap; 
   overflow: hidden;
   flex-shrink: 0;
   display: flex;
@@ -350,6 +351,11 @@ form>div input:not([type="date"]) {
   height: 20px;
   cursor: pointer;
 }
+.impRepChecker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 .cBox {
   position: relative;
 }
@@ -423,6 +429,19 @@ form>div input:not([type="date"]) {
   .leftNavBar .lNavbar .lNavbarList li {
     padding: 10px 5px;
   }
+  .exitDropdown {
+    width: unset;
+  }
+  .exitDropdown .exitButton {
+    width: 100%;
+    background-color: #2564cf;
+    color: #fff;
+    padding: 5px 5px;
+    border-top: 1px solid #fff;
+}
+.signUpForm {
+  width: 100%;
+}
 }
 
 @media(max-width: 564px){
@@ -499,5 +518,18 @@ form>div input:not([type="date"]) {
 .leftNavBarBottom .officeButtons svg{
   max-width: 14px;
   max-height: 14px;
+}
+.lnb {
+  height: 100%;
+}
+.exitDropdown {
+  width: unset;
+}
+.exitDropdown .exitButton {
+  width: 100%;
+  background-color: #2564cf;
+  color: #fff;
+  padding: 5px 5px;
+  border-top: 1px solid #fff;
 }
 }

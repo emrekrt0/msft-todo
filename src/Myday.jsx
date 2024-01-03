@@ -1,15 +1,10 @@
 import { Link } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { createClient } from '@supabase/supabase-js';
 import { getSession } from "./Root";
 import addNotification from "react-push-notification";
 import emptyStars from './assets/static/emptyStars.svg';
+import supabase from './functions/supabase.jsx'
 
-
-const supabase = createClient(
-    'https://jopuhrloekkmoytnujmb.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvcHVocmxvZWtrbW95dG51am1iIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwMzIzODg5MywiZXhwIjoyMDE4ODE0ODkzfQ.BKG_xrrxE5mqHIqkD3q0pVHyE4cXyE0ZhQ1YGiXl5-I'
-  );
 
   export default function Myday() {
     const [userID, setUserID] = useState();
@@ -200,6 +195,7 @@ const supabase = createClient(
     function handleRepeatStyle() {
             setRepeatDropdown(!repeatDropdown);
     }
+    
     return(
         <div className="mainBackground">
             <div className="importantHeader">
@@ -253,7 +249,7 @@ const supabase = createClient(
                     </span>
                     <ul>
                         <li className="baseAddInput-important">
-                            <div className="whatTodo">{task.todo} </div> <div className="importantCheck"> {task.repeat > 1 ? `Kalan tekrar: ${task.repeat}` : ''} {!task.important ? <img src={emptyStars} onClick={ () => changeImportant(task.id)}></img> : null} </div>
+                            <div className="whatTodo">{task.todo} </div>  <div className="impRepChecker"> {task.repeat > 1 ? <p>Kalan tekrar: {task.repeat}</p> : ''} {!task.important ? <div className="importantCheck"><img src={emptyStars} onClick={() => changeImportant(task.id)} title="Add to important"></img></div> : null} </div>
                         </li>
                     </ul>
                 </div>

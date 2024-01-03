@@ -4,16 +4,16 @@ import { createClient } from '@supabase/supabase-js';
 import { getSession } from "./Root";
 import { useOutlet } from "react-router-dom";
 import addNotification from "react-push-notification";
+import supabase from './functions/supabase.jsx'
+import emptyStars from './assets/static/emptyStars.svg'; 
 
-const supabase = createClient(
-    'https://jopuhrloekkmoytnujmb.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvcHVocmxvZWtrbW95dG51am1iIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwMzIzODg5MywiZXhwIjoyMDE4ODE0ODkzfQ.BKG_xrrxE5mqHIqkD3q0pVHyE4cXyE0ZhQ1YGiXl5-I'
-  );
 
   export default function Tasks({ searchResults }) {
     const [userID, setUserID] = useState();
     const [selectedDate, setSelectedDate] = useState();
     const [tasks, setTasks] = useState([]);
+    const [repeatNumber, setRepeatNumber] = useState(0);
+    const [repeatDropdown, setRepeatDropdown] = useState(false);
   
     useEffect(() => {
       supabase.auth.onAuthStateChange((event, session) => {
@@ -70,7 +70,14 @@ const supabase = createClient(
       }
     }
 
-    async function handleDelete(taskId) {
+    async function handleDelete(taskId, repeat) {
+      if (repeat > 1) {
+        const { data, error } = await supabase
+        .from('todo')
+        .update({ repeat: repeat - 1 })
+        .eq('id', taskId)
+        .select();
+    } else {
         try {
             const { error } = await supabase
                 .from('todo')
@@ -91,7 +98,7 @@ const supabase = createClient(
         } catch (error) {
             console.error('Bir hata oluştu:', error.message);
         }
-    }
+    }}
 
     async function changeImportant(taskId, taskImportant) {
         try {
@@ -117,7 +124,7 @@ const supabase = createClient(
             console.error('Bir hata oluştu:', error.message);
         }
     }
-
+    
     function TaskResult() {
       return(
       <div className="mainBackground">
@@ -129,16 +136,22 @@ const supabase = createClient(
             <div className="tasks mt-50">
             {tasks.map((task) => (
                 <div key={task.id} className="baseAdd addTask box-shadow mb-20 ts">
-                    <span className="checkBox baseAdd-icon" onClick={() => handleDelete(task.id)} aria-label="Delete task">
+                    <span className="checkBox baseAdd-icon" onClick={() => handleDelete(task.id,task.repeat)} aria-label="Delete task">
                         <svg className="cBox" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 3a7 7 0 100 14 7 7 0 000-14zm-8 7a8 8 0 1116 0 8 8 0 01-16 0z" fill="blue"></path></svg>
-                        <svg class="checkBox-hover themeBlue" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M10 2a8 8 0 110 16 8 8 0 010-16zm0 1a7 7 0 100 14 7 7 0 000-14zm3.36 4.65c.17.17.2.44.06.63l-.06.07-4 4a.5.5 0 01-.64.07l-.07-.06-2-2a.5.5 0 01.63-.77l.07.06L9 11.3l3.65-3.65c.2-.2.51-.2.7 0z" fill="currentColor"></path></svg>
+                        <svg className="checkBox-hover themeBlue" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M10 2a8 8 0 110 16 8 8 0 010-16zm0 1a7 7 0 100 14 7 7 0 000-14zm3.36 4.65c.17.17.2.44.06.63l-.06.07-4 4a.5.5 0 01-.64.07l-.07-.06-2-2a.5.5 0 01.63-.77l.07.06L9 11.3l3.65-3.65c.2-.2.51-.2.7 0z" fill="currentColor"></path></svg>
                     </span>
-                    <ul>
-                        <li className="baseAddInput-important">
-                            <div className="whatTodo">{task.todo} {task.date ? <p className="taskDate themeBlue">{task.date}</p> : null } </div> {!task.important ? <div className="importantCheck"><button onClick={ () => changeImportant(task.id, task.important)}>💫</button></div> : <button onClick={ () => changeImportant(task.id, task.important)}><div className="importantCheck">⭐</div></button>}
-                        </li>
-                    </ul>
-                </div>
+                        <ul>
+                            <li className="baseAddInput-important">
+                                <div className="whatTodo">{task.todo} 
+                                {task.date ? <p className="taskDate themeBlue">{task.date}</p> : null } </div> 
+                                <div className="impRepChecker"> 
+                                    {task.repeat > 1 ? <p>Kalan tekrar: {task.repeat}</p> : ''}
+                                    {!task.important ? <div className="importantCheck"><img src={emptyStars} onClick={ () => changeImportant(task.id,task.important)} title="Add to important"></img></div> 
+                                    : <button onClick={ () => changeImportant(task.id, task.important)}><div className="importantCheck">⭐</div></button>}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
             ))}
             </div>
         </div>

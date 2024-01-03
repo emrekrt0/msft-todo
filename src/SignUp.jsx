@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { useNavigate, Link } from 'react-router-dom';
+import supabase from './functions/supabase.jsx'
 
-// Create a single supabase client for interacting with your database
-const supabase = createClient(
-  'https://jopuhrloekkmoytnujmb.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvcHVocmxvZWtrbW95dG51am1iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDMyMzg4OTMsImV4cCI6MjAxODgxNDg5M30.fs4Glk5dtLG80qIyN8fBJGw3jlgwwv4ff6n5B32yJ8E'
-);
 
 function SignUpForm() {
   const navigate = useNavigate();
