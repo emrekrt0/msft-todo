@@ -15,6 +15,7 @@ const supabase = createClient(
     const [tasks, setTasks] = useState([]);
     const [dateTime, setDateTime] = useState(new Date());
     const [repeatNumber, setRepeatNumber] = useState(0);
+    const [repeatDropdown, setRepeatDropdown] = useState(false);
 
     const scheduleNotification = () => {
       // Schedule your notification here
@@ -129,7 +130,7 @@ const supabase = createClient(
     
 
     async function handleDelete(taskId, repeat) {
-        if (repeat > 0) {
+        if (repeat > 1) {
             const { data, error } = await supabase
             .from('todo')
             .update({ repeat: repeat - 1 })
@@ -195,6 +196,9 @@ const supabase = createClient(
         },300000)
     }
 
+    function handleRepeatStyle() {
+            setRepeatDropdown(!repeatDropdown);
+    }
     return(
         <div className="mainBackground">
             <div className="importantHeader">
@@ -221,10 +225,10 @@ const supabase = createClient(
                             </button>
                         </div>
                         <div className="repeatButton-container">
-                            <button className="repeatButton" type="button" title="Tekrarlayıcı ekle">
+                            <button className="repeatButton" type="button" title="Tekrarlayıcı ekle" onClick={handleRepeatStyle}>
                                 <svg fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M16.5 6.67a.5.5 0 01.3.1l.08.07.01.02A5 5 0 0113.22 15L13 15H6.7l1.65 1.65c.18.17.2.44.06.63l-.06.07a.5.5 0 01-.63.06l-.07-.06-2.5-2.5a.5.5 0 01-.06-.63l.06-.07 2.5-2.5a.5.5 0 01.76.63l-.06.07L6.72 14h.14L7 14h6a4 4 0 003.11-6.52.5.5 0 01.39-.81zm-4.85-4.02a.5.5 0 01.63-.06l.07.06 2.5 2.5.06.07a.5.5 0 010 .56l-.06.07-2.5 2.5-.07.06a.5.5 0 01-.56 0l-.07-.06-.06-.07a.5.5 0 010-.56l.06-.07L13.28 6h-.14L13 6H7a4 4 0 00-3.1 6.52c.06.09.1.2.1.31a.5.5 0 01-.9.3A4.99 4.99 0 016.77 5h6.52l-1.65-1.65-.06-.07a.5.5 0 01.06-.63z" fill="currentColor"></path></svg>
                             </button>
-                            <select className="repeatSelect" name="repeat" title="Tekrarlayıcı ekle">
+                            <select className={`repeatSelect ${repeatDropdown ? '' : 'none'}`} name="repeat" title="Tekrarlayıcı ekle">
                                 <option value="0" defaultValue={0}>0</option>
                                 <option value="2">2</option>
                                 <option value="5">5</option>
@@ -248,7 +252,7 @@ const supabase = createClient(
                     </span>
                     <ul>
                         <li className="baseAddInput-important">
-                            <div className="whatTodo">{task.todo} </div>{task.repeat > 0 ? task.repeat : ''} {!task.important ? <div className="importantCheck"><button onClick={ () => changeImportant(task.id)}>💫</button></div> : null}
+                            <div className="whatTodo">{task.todo} </div> <div className="importantCheck"> {task.repeat > 1 ? `Kalan tekrar: ${task.repeat}` : ''} {!task.important ? <button onClick={ () => changeImportant(task.id)}>💫</button> : null} </div>
                         </li>
                     </ul>
                 </div>

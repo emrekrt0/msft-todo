@@ -335,6 +335,14 @@ form>div input:not([type="date"]) {
 .whatTodo .taskDate {
   font-weight: bold;
 }
+.repeatSelect.none {
+  display: none;
+}
+.repeatButton-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 .cBox {
   position: relative;
 }
