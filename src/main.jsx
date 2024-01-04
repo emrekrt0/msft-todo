@@ -10,6 +10,7 @@ import Myday from './Myday.jsx';
 import Planned from './Planned.jsx';
 import Tasks from './Tasks.jsx';
 import Search from './Search.jsx';
+import List from './List.jsx';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: 'search',
         element: <Search />,
+      },
+      {
+        path: 'list/:id',
+        element: <List />,
       }
     ],
   },

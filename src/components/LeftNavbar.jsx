@@ -1,14 +1,125 @@
-import { Outlet, Link, NavLink } from "react-router-dom";
+import { Outlet, Link, NavLink, useNavigate} from "react-router-dom";
 import hamburgerIcon from '../assets/static/menu.svg';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import supabase from "../functions/supabase";
+
+
+
 
 export default function LeftNavbar() {
     const [hamburger, setHamburger] = useState(true);
+    const [createList, setCreateList] = useState(false);
+    const [userID, setUserID] = useState();
+    const [listId, setListId] = useState();
+    const [lists, setLists] = useState([]);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        supabase.auth.onAuthStateChange((event, session) => {
+            setTimeout(() => {
+                if (session) {
+                    setUserID(session.user.id);
+                } else {
+                    console.log('no user');
+                }
+            }, 0);
+        });
+    }, []);
+    
+    useEffect(() => {
+        if (userID) {
+            getLists();
+        }
+    }, [userID]); 
+      
+
+    
 
     function handleHamburger() {
         setHamburger(!hamburger);
     }
+    function handleCreateBtn() {
+        setCreateList(!createList);
+    }
+    async function handleCreateList(e) {
+        if (!userID) {
+            return;
+        }
+        e.preventDefault();
+        const formData = Object.fromEntries(new FormData(e.target));
+        console.log(formData.listName);
+        try {
+            const { data, error } = await supabase
+            .from('list')
+            .insert({  
+                list_name: formData.listName,
+                user_id: userID,
+            })
+            .select()
+    
+            if (error) {
+                if (error.code === "23505") {
+                    alert("Bu görev zaten var");
+                } else {
+                alert(error.message);
+                console.log(error.message); 
+                }
+            } else {    
+                alert("Liste başarıyla eklendi");
+                setCreateList(false);
+                // navigate(`/list/${list}`)
+                e.target.reset();
+                getLists();
+            }
+         } catch (error) {
+            console.error('Bir hata oluştu:', error.message);
+        }
+        }
 
+        async function getLists() {
+           try {
+                const { data, error } = await supabase
+                  .from('list')
+                  .select('*')
+                  .eq('user_id', userID);
+          
+                if (error) {
+                  alert(error.message);
+                } else {
+                  console.log(data);
+                  setLists(data || []);
+                  setListId(data.id);
+                }
+              } catch (error) {
+                console.error('Bir hata oluştu:', error.message);
+              }
+            }
+
+            async function handleDeleteList(listId) {
+                try {
+                    await supabase
+                    .from('todo')
+                    .delete()
+                    .eq('list_id', listId);
+
+                    const { data, error } = await supabase
+                        .from('list')
+                        .delete()
+                        .eq('id', listId);
+            
+                    if (error) {
+                        alert("Liste silinirken bir hata oluştu.");
+                        console.error('Silme hatası:', error.message);
+                    } else {
+                        alert("Liste başarıyla silindi.");
+                        navigate('/myday');
+                        getLists();
+                    }
+                } catch (error) {
+                    console.error('Bir hata oluştu:', error.message);
+                }
+            }
     return(
         <>
         <div className="lnb">
@@ -48,7 +159,18 @@ export default function LeftNavbar() {
                         </ul>
                     </div>
                     <div className="splitter"></div>
-                    <div className="addNewList">Yeni Liste Ekle</div>
+                    <div className="lists">
+                    {lists.map((list) => 
+                            <div className="list" key={list.id}><NavLink to={`list/${list.id}`}><div className="listName">{list.list_name}</div></NavLink><div className="listDelete"><button onClick={ () => handleDeleteList(list.id)}>🗑️</button></div></div>
+                    )}
+                    </div>
+                    {createList ? <div className="creatList">
+                        <form action="POST" onSubmit={handleCreateList}>
+                            <input type="text" placeholder="Liste adı" name="listName" />
+                            <button type="submit">Oluştur</button>
+                        </form>
+                    </div> : '' }
+                    <button onClick={handleCreateBtn} className="newListBtn"><div className="addNewList"><h3>Yeni Liste Ekle</h3></div></button>
                 </div>
                 <div className="leftNavBarBottom">
                     <div className="officeButtons">

@@ -200,6 +200,10 @@ form>div input:not([type="date"]) {
 .exitDropdown .exitButton:hover {
   background-color: #1a4596;
 }
+.otherApps a button:hover {
+  background-color: #1a4596;
+
+}
 .header_user .exitInfo button {
   display: flex;
   align-items: center;
@@ -310,6 +314,7 @@ form>div input:not([type="date"]) {
 .baseAdd .baseAddInput-important {
   width: 100%;
 }
+
 .choices {
   border-top: solid 1px #edebe9;
   background-color: #faf9f8;
@@ -378,6 +383,9 @@ form>div input:not([type="date"]) {
   align-items: center;
   gap: 8px;
 }
+.importantCheck.notFilled:hover img {
+  filter: invert(0.8) sepia(10) saturate(7) hue-rotate(323deg);
+}
 .cBox {
   position: relative;
 }
@@ -397,6 +405,39 @@ form>div input:not([type="date"]) {
 }
 .checkBox:hover .checkBox-hover {
   opacity: 1;
+}
+.lists .list {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 5px;
+  margin-bottom: 10px;
+}
+.creatList form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.creatList button {
+  border: 1px solid black;
+  background-color: #cac7c7;
+  padding: 3.5px 3.5px;
+  border-radius: 5px;
+}
+.creatList input {
+  background-color: #eeeceb;
+  border-radius: 5px;
+}
+.tasks .baseAdd ul li.editMode .whatTodo {
+  flex-grow: 2;
+}
+.tasks .baseAdd ul li.editMode .whatTodo form{
+  flex-grow: 2;
+}
+
+input.editTodo {
+  background-color: #dad6d6;
+  border-radius: 5px;
+  height: 100%;
 }
 .mt-50 {
   margin-top: 50px;
@@ -427,6 +468,16 @@ form>div input:not([type="date"]) {
 }
 .fs-12 {
   font-size: 12px;
+}
+:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.newListBtn {
+  height: auto;
+}
+.listName {
+  padding: 5px 5px;
 }
 
 @media (max-width:923px) {

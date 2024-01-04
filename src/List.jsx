@@ -1,17 +1,21 @@
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { getSession } from "./Root";
 import addNotification from "react-push-notification";
 import emptyStars from './assets/static/emptyStars.svg';
-import  supabase  from './functions/supabase.jsx'
+import supabase from './functions/supabase.jsx'
 
-
-  export default function Myday() {
+export default function List() {
     const [userID, setUserID] = useState();
     const [tasks, setTasks] = useState([]);
     const [dateTime, setDateTime] = useState(new Date());
     const [repeatNumber, setRepeatNumber] = useState(0);
     const [repeatDropdown, setRepeatDropdown] = useState(false);
+    const [editButton, setEditButton] = useState(false);
+    const [listName, setListName] = useState('');
+    const { id } = useParams();
 
     const scheduleNotification = () => {
       // Schedule your notification here
@@ -33,24 +37,41 @@ import  supabase  from './functions/supabase.jsx'
   
     const handleInserts = (payload) => {
         console.log('Change received!', payload);
-        getTasks();
+        getTasks(id);
       };
 
-    
-    
     supabase
-  .channel('room1')
-  .on('postgres_changes', { event: '*', schema: '*' }, handleInserts)
-  .subscribe()
+    .channel('room1')
+    .on('postgres_changes', { event: '*', schema: '*' }, handleInserts)
+    .subscribe()
     
 
     useEffect(() => {
       if (userID !== null) {
-        getTasks();
+        getTasks(id);
+        getListName(id);
       }
-    }, [userID]);
-  
-    async function getTasks() {
+    }, [userID, id]);
+    
+    async function getListName(id) {
+        try {
+            const { data, error } = await supabase
+            .from('list')
+            .select('*')
+            .eq('id', id)
+            .single();
+            if (error) {
+                alert(error.message);
+            } else {
+                console.log(data);
+                setListName(data.list_name);
+            }
+        } catch (error) {
+            console.error('Bir hata oluştu:', error.message);
+        }
+    }
+
+    async function getTasks(id) {
         if (!userID) {
             return;
         }
@@ -59,9 +80,7 @@ import  supabase  from './functions/supabase.jsx'
           .from('todo')
           .select('*')
           .eq('user_id', userID)
-          .eq('important', true)
-          .is('date', null)
-          .is('list_id', null)
+          .eq('list_id', id)
           .order('id', { ascending: false });
   
         if (error) {
@@ -76,16 +95,8 @@ import  supabase  from './functions/supabase.jsx'
     }
 
     async function handleSendTask(e) {
-        e.preventDefault();
         if (!userID) {
             return;
-        }
-        const formData = Object.fromEntries(new FormData(e.target));
-        let selectedDate;
-        if (formData.date) {
-           selectedDate = formData.date;
-        } else {
-            selectedDate = null;
         }
         const repeatNum = e.target.repeat.value;
         if (!repeatNum) {
@@ -94,15 +105,18 @@ import  supabase  from './functions/supabase.jsx'
             setRepeatNumber(repeatNum);
             console.log(repeatNumber);
         }
+        e.preventDefault();
+        const formData = Object.fromEntries(new FormData(e.target));
         try {
         const { data, error } = await supabase
         .from('todo')
         .insert({  
             todo: formData.todo,
             user_id: userID,
-            important: true,
-            date: selectedDate,
+            important: false,
+            date: null,
             repeat: repeatNum,
+            list_id: id,
         })
         .select()
 
@@ -116,7 +130,7 @@ import  supabase  from './functions/supabase.jsx'
         } else {    
             await addNotification({
                 title: 'Your task has been added',
-                subtitle: 'You added a task to your important list.',
+                subtitle: 'You added a task to your list.',
                 message: `${formData.todo}`,
                 backgroundTop: '#2564cf',
                 backgroundBottom: '#0f2e64', 
@@ -152,21 +166,21 @@ import  supabase  from './functions/supabase.jsx'
                 addNotification({
                     theme: 'light',
                     title: "Your task has been deleted",
-                    subtitle: "You deleted a task from your list.",
+                    subtitle: "You deleted a task from your important list.",
                   })
-                getTasks();
+                getTasks(id);
             }
         } catch (error) {
             console.error('Bir hata oluştu:', error.message);
         }
     }}
 
-    async function changeImportant(taskId) {
+    async function changeImportant(taskId, taskImportant) {
         try {
         const { data, error } = await supabase
         .from('todo')
         .update({  
-            important: false,
+            important: !taskImportant,
         })
         .eq('id', taskId)
         .select()
@@ -176,8 +190,8 @@ import  supabase  from './functions/supabase.jsx'
         } else {
             addNotification({
                 theme: 'light',
-                title: "Your task marketd as unimportant",
-                subtitle: "Your task has moved to your My Day list.",
+                title: "Your task successfully changed",
+                subtitle: `Your task successfully changed to ${taskImportant ? 'unimportant' : 'important'}`,
             })
         }
     } catch (error) {
@@ -187,9 +201,8 @@ import  supabase  from './functions/supabase.jsx'
     const nativeNotifaction = () => {
         addNotification({
             native: true,
-            title: 'Reminder set',
-            message: 'Your task reminder has been set. You will be notified in 5 minutes.',
-            duration: 5000,
+            title: 'Reminder has been activated',
+            message: "You'll be reminded in 5 minutes"
         });
         setTimeout(() => {
             addNotification({
@@ -203,12 +216,44 @@ import  supabase  from './functions/supabase.jsx'
     function handleRepeatStyle() {
             setRepeatDropdown(!repeatDropdown);
     }
+    
+    function handleEditTodo (e) {
+        setEditButton(!editButton);
+        console.log(editButton);
+    }
+    async function sendNewTodo(e,taskId) {
+        e.preventDefault();
+        const formData = Object.fromEntries(new FormData(e.target));
+        try {
+            const { data, error } = await supabase
+            .from('todo')
+            .update({  
+                todo: formData.editedTodo,
+            })
+            .eq('id', taskId)
+            .select()
+    
+            if (error) {
+                alert(error.message);
+            } else {
+                setEditButton(!editButton);
+                addNotification({
+                    theme: 'light',
+                    title: "Your task successfully edited",
+                    subtitle: `Your task successfully edited to ${formData.editedTodo}`,
+                })
+            }
+        } catch (error) {
+            console.error('Bir hata oluştu:', error.message);
+        }}
+    
+
     return(
         <div className="mainBackground">
             <div className="importantHeader">
                 <div className="importantHeader-title">
-                <svg className="fluentIcon listTitle-icon ___12fm75w f1w7gpdv fez10in fg4l7m0" fill="currentColor" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10.79 3.1c.5-1 1.92-1 2.42 0l2.36 4.78 5.27.77c1.1.16 1.55 1.52.75 2.3l-3.82 3.72.9 5.25a1.35 1.35 0 01-1.96 1.42L12 18.86l-4.72 2.48a1.35 1.35 0 01-1.96-1.42l.9-5.25-3.81-3.72c-.8-.78-.36-2.14.75-2.3l5.27-.77 2.36-4.78zm1.2.94L9.75 8.6c-.2.4-.58.68-1.02.74l-5.05.74 3.66 3.56c.32.3.46.76.39 1.2l-.87 5.02 4.52-2.37c.4-.2.86-.2 1.26 0l4.51 2.37-.86-5.03c-.07-.43.07-.88.39-1.2l3.65-3.55-5.05-.74a1.35 1.35 0 01-1.01-.74L12 4.04z" fill="currentColor"></path></svg>
-                    <h2>Important</h2>
+                <svg fill="currentColor" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c.41 0 .75.34.75.75v1.5a.75.75 0 01-1.5 0v-1.5c0-.41.34-.75.75-.75zm0 15a5 5 0 100-10 5 5 0 000 10zm0-1.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7zm9.25-2.75a.75.75 0 000-1.5h-1.5a.75.75 0 000 1.5h1.5zM12 19c.41 0 .75.34.75.75v1.5a.75.75 0 01-1.5 0v-1.5c0-.41.34-.75.75-.75zm-7.75-6.25a.75.75 0 000-1.5h-1.5a.75.75 0 000 1.5h1.5zm-.03-8.53c.3-.3.77-.3 1.06 0l1.5 1.5a.75.75 0 01-1.06 1.06l-1.5-1.5a.75.75 0 010-1.06zm1.06 15.56a.75.75 0 11-1.06-1.06l1.5-1.5a.75.75 0 111.06 1.06l-1.5 1.5zm14.5-15.56a.75.75 0 00-1.06 0l-1.5 1.5a.75.75 0 001.06 1.06l1.5-1.5c.3-.3.3-.77 0-1.06zm-1.06 15.56a.75.75 0 101.06-1.06l-1.5-1.5a.75.75 0 10-1.06 1.06l1.5 1.5z" fill="currentColor"></path></svg>
+                    <h2>{listName}</h2>
                 </div>
             </div>
             <div className="addTaskParent">
@@ -257,7 +302,17 @@ import  supabase  from './functions/supabase.jsx'
                     </span>
                     <ul>
                         <li className="baseAddInput-important">
-                            <div className="whatTodo">{task.todo} </div> <div className="impRepChecker"> {task.repeat > 1 ? <p>Kalan tekrar: {task.repeat}</p> : ''} {task.important ? <div className="importantCheck"><button onClick={ () => changeImportant(task.id)}>⭐</button></div> : null} </div>
+                            <div className="whatTodo">{!editButton ? task.todo : 
+                                <form onSubmit={ (e) => sendNewTodo(e, task.id)}>
+                                    <input className="baseAddInput-important" type="text" maxLength={"255"} placeholder="Add a task" tabIndex={"0"} autoComplete="off" name="editedTodo" disabled={!userID} defaultValue={task.todo}/>
+                                </form>}
+                            </div>  
+                                <div className="impRepChecker"> 
+                                    <div className="editTodo">
+                                        <button onClick={() => {handleEditTodo(task.id)}}>🖋️</button>
+                                    </div> 
+                                    {task.repeat > 1 ? <p>Kalan tekrar: {task.repeat}</p> : ''} 
+                                    {!task.important ? <div className="importantCheck"><img src={emptyStars} onClick={() => changeImportant(task.id,task.important)} title="Add to important"></img></div> : <button onClick={ () => changeImportant(task.id, task.important)}><div className="importantCheck">⭐</div></button>} </div>
                         </li>
                     </ul>
                 </div>

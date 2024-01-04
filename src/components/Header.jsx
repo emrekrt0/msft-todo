@@ -83,7 +83,7 @@ export default function Header( {onSearch} ) {
                 </div>
                 <div className="header_userSettings">
                 <div className="settingsIcon">
-                    <Link to="/datepicker"><img src={settingsIcon} alt=""/></Link>
+                    <img src={settingsIcon} alt=""/>
                 </div>
                 <div className="helpIcon">
                     <img src={helpIcon} alt=""/>

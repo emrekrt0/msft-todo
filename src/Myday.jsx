@@ -62,6 +62,7 @@ import supabase from './functions/supabase.jsx'
           .eq('user_id', userID)
           .eq('important', false)
           .is('date', null)
+          .is('list_id', null)
           .order('id', { ascending: false });
   
         if (error) {
@@ -109,13 +110,14 @@ import supabase from './functions/supabase.jsx'
             }
         } else {    
             await addNotification({
-                title: 'Task başarıyla eklendi',
-                subtitle: 'Taskınız başarıyla eklendi',
+                title: 'Your task successfully added',
+                subtitle: 'Your task successfully added to your list.',
                 message: `${formData.todo}`,
                 backgroundTop: '#2564cf',
                 backgroundBottom: '#0f2e64', 
                 colorTop: 'white', 
                 colorBottom: 'white',  
+                duration: 5000
             });
             
             e.target.reset();
@@ -145,8 +147,9 @@ import supabase from './functions/supabase.jsx'
             } else {
                 addNotification({
                     theme: 'light',
-                    title: "Görev başarıyla silindi.",
-                    subtitle: "Görevinizi sildiniz.",
+                    title: "Your task has been deleted",
+                    subtitle: "You deleted a task from your list.",
+                    duration: 5000
                   })
                 getTasks();
             }
@@ -170,8 +173,9 @@ import supabase from './functions/supabase.jsx'
         } else {
             addNotification({
                 theme: 'light',
-                title: "Gö önemli olarak işaretlendi",
-                subtitle: "Todo'unuz Important'a aktarıldı",
+                title: "Your task successfully marked as important",
+                subtitle: "Your task successfully transferred to your important list.",
+                duration: 5000
             })
         }
     } catch (error) {
@@ -181,14 +185,15 @@ import supabase from './functions/supabase.jsx'
     const nativeNotifaction = () => {
         addNotification({
             native: true,
-            title: 'Hatırlatıcı açıldı',
-            message: 'Hatırlatıcıyı başarıyla aktif edildiniz. 5 dakika sonra bildirim alacaksınız.'
+            title: 'Reminder set',
+            message: 'Your task reminder has been set. You will be notified in 5 minutes.',
+            duration: 5000,
         });
         setTimeout(() => {
             addNotification({
                 native: true,
-                title: 'Hatırlatıcı',
-                message: 'Task hatırlatıcısı'
+                title: 'Reminder',
+                message: 'Task reminder'
             });
         },300000)
     }
@@ -221,6 +226,7 @@ import supabase from './functions/supabase.jsx'
                     theme: 'light',
                     title: "Your task successfully edited",
                     subtitle: `Your task successfully edited to ${formData.editedTodo}`,
+                    duration: 5000
                 })
             }
         } catch (error) {
@@ -280,16 +286,18 @@ import supabase from './functions/supabase.jsx'
                         <svg className="checkBox-hover themeBlue" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M10 2a8 8 0 110 16 8 8 0 010-16zm0 1a7 7 0 100 14 7 7 0 000-14zm3.36 4.65c.17.17.2.44.06.63l-.06.07-4 4a.5.5 0 01-.64.07l-.07-.06-2-2a.5.5 0 01.63-.77l.07.06L9 11.3l3.65-3.65c.2-.2.51-.2.7 0z" fill="currentColor"></path></svg>
                     </span>
                     <ul>
-                        <li className="baseAddInput-important">
+                        <li className={`baseAddInput-important ${editButton ? 'editMode' : ''}`}>
                             <div className="whatTodo">{!editButton ? task.todo : 
-                                <form onSubmit={ (e) => sendNewTodo(e, task.id)}><input className="baseAddInput-important" type="text" maxLength={"255"} placeholder="Add a task" tabIndex={"0"} autoComplete="off" name="editedTodo" disabled={!userID} defaultValue={task.todo}/></form>}
+                                <form onSubmit={ (e) => sendNewTodo(e, task.id)}>
+                                    <input className="baseAddInput-important editTodo" type="text" maxLength={"255"} placeholder="Add a task" tabIndex={"0"} autoComplete="off" name="editedTodo" disabled={!userID} defaultValue={task.todo}/>
+                                </form>}
                             </div>  
                                 <div className="impRepChecker"> 
                                     <div className="editTodo">
                                         <button onClick={() => {handleEditTodo(task.id)}}>🖋️</button>
                                     </div> 
                                     {task.repeat > 1 ? <p>Kalan tekrar: {task.repeat}</p> : ''} 
-                                    {!task.important ? <div className="importantCheck"><img src={emptyStars} onClick={() => changeImportant(task.id)} title="Add to important"></img></div> : null} </div>
+                                    {!task.important ? <div className="importantCheck notFilled"><img src={emptyStars} onClick={() => changeImportant(task.id)} title="Add to important"></img></div> : null} </div>
                         </li>
                     </ul>
                 </div>

@@ -57,6 +57,7 @@ import emptyStars from './assets/static/emptyStars.svg';
           .from('todo')
           .select('*')
           .eq('user_id', userID)
+          .is('list_id', null)
           .order('id', { ascending: false });
         if (error) {
           alert(error.message);
@@ -90,8 +91,9 @@ import emptyStars from './assets/static/emptyStars.svg';
             } else {
               addNotification({
                 theme: 'light',
-                title: "Görev başarıyla silindi.",
-                subtitle: "Görevinizi sildiniz.",
+                title: "Your task has been deleted",
+                subtitle: "You deleted a task from your list.",
+                duration: 5000
               })
                 getTasks();
             }
@@ -115,8 +117,9 @@ import emptyStars from './assets/static/emptyStars.svg';
             } else {
                 addNotification({
                   theme: 'light',
-                  title: `Önemlilik başarıyla değiştirildi!`,
-                  subtitle: `Önemlilik: ${!taskImportant ? 'Önemli' : 'Önemsiz'}`,
+                  title: `You changed the importance of a task`,
+                  subtitle: `Important set to: ${!taskImportant ? 'Important' : 'Unimportant'}`,
+                  duration: 5000
                 })
                 getTasks();
             }
@@ -146,7 +149,7 @@ import emptyStars from './assets/static/emptyStars.svg';
                                 {task.date ? <p className="taskDate themeBlue">{task.date}</p> : null } </div> 
                                 <div className="impRepChecker"> 
                                     {task.repeat > 1 ? <p>Kalan tekrar: {task.repeat}</p> : ''}
-                                    {!task.important ? <div className="importantCheck"><img src={emptyStars} onClick={ () => changeImportant(task.id,task.important)} title="Add to important"></img></div> 
+                                    {!task.important ? <div className="importantCheck notFilled"><img src={emptyStars} onClick={ () => changeImportant(task.id,task.important)} title="Add to important"></img></div> 
                                     : <button onClick={ () => changeImportant(task.id, task.important)}><div className="importantCheck">⭐</div></button>}
                                 </div>
                             </li>
