@@ -18,7 +18,6 @@ export const SearchContext = createContext();
 function App() {
   const [userId, setUserId] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((event, session) => {

@@ -15,6 +15,7 @@ export default function List() {
     const [repeatDropdown, setRepeatDropdown] = useState(false);
     const [editButton, setEditButton] = useState(false);
     const [listName, setListName] = useState('');
+    
     const { id } = useParams();
 
     const scheduleNotification = () => {
