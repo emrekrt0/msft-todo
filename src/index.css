@@ -406,11 +406,18 @@ form>div input:not([type="date"]) {
 .checkBox:hover .checkBox-hover {
   opacity: 1;
 }
+.lists {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .lists .list {
   display: flex;
   justify-content: space-between;
   padding: 5px 5px;
-  margin-bottom: 10px;
+}
+.lists .list a {
+  flex-grow: 2;
 }
 .creatList form {
   display: flex;
