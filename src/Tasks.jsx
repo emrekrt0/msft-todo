@@ -64,7 +64,6 @@ import emptyStars from './assets/static/emptyStars.svg';
         } else {
           console.log(data);
           setTasks(data || []);
-          console.log(searchResults);
         }
       } catch (error) {
         console.error('Bir hata oluştu:', error.message);

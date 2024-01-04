@@ -15,6 +15,8 @@ export default function LeftNavbar() {
 
     const navigate = useNavigate();
 
+    getTaskLength();
+
     useEffect(() => {
         supabase.auth.onAuthStateChange((event, session) => {
             setTimeout(() => {
