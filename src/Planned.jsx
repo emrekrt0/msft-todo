@@ -11,6 +11,8 @@ import emptyStars from './assets/static/emptyStars.svg';
     const [tasks, setTasks] = useState([]);
     const [repeatNumber, setRepeatNumber] = useState(0);
     const [repeatDropdown, setRepeatDropdown] = useState(false);
+    const [editingTaskId, setEditingTaskId] = useState(null);
+
   
     useEffect(() => {
       supabase.auth.onAuthStateChange((event, session) => {
@@ -178,6 +180,44 @@ import emptyStars from './assets/static/emptyStars.svg';
     function handleRepeatStyle() {
         setRepeatDropdown(!repeatDropdown);
     }
+
+    function handleEditTodo (taskId) {
+        if (taskId === editingTaskId) {
+          setEditingTaskId(null); 
+        } else {
+          setEditingTaskId(taskId); 
+        }
+        
+      }
+    
+      async function sendNewTodo(e,taskId) {
+        e.preventDefault();
+        const formData = Object.fromEntries(new FormData(e.target));
+        try {
+          const { data, error } = await supabase
+            .from('todo')
+            .update({  
+              todo: formData.editedTodo,
+            })
+            .eq('id', taskId)
+            .select()
+    
+          if (error) {
+            alert(error.message);
+          } else {
+            setEditingTaskId(null);
+            addNotification({
+              theme: 'light',
+              title: "Your task successfully edited",
+              subtitle: `Your task successfully edited to ${formData.editedTodo}`,
+              duration: 5000
+            })
+          }
+        } catch (error) {
+          console.error('Bir hata oluştu:', error.message);
+        }
+      }
+
     return(
         <div className="mainBackground">
             <div className="importantHeader">
@@ -226,26 +266,42 @@ import emptyStars from './assets/static/emptyStars.svg';
             </div>
 
             <div className="tasks">
-            {tasks.map((task) => (
+                {tasks.map((task) => (
                 <div key={task.id} className="baseAdd addTask box-shadow mb-20 ts">
                     <span className="checkBox baseAdd-icon" onClick={() => handleDelete(task.id,task.repeat)} aria-label="Delete task">
-                        <svg className="cBox" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 3a7 7 0 100 14 7 7 0 000-14zm-8 7a8 8 0 1116 0 8 8 0 01-16 0z" fill="blue"></path></svg>
-                        <svg className="checkBox-hover themeBlue" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M10 2a8 8 0 110 16 8 8 0 010-16zm0 1a7 7 0 100 14 7 7 0 000-14zm3.36 4.65c.17.17.2.44.06.63l-.06.07-4 4a.5.5 0 01-.64.07l-.07-.06-2-2a.5.5 0 01.63-.77l.07.06L9 11.3l3.65-3.65c.2-.2.51-.2.7 0z" fill="currentColor"></path></svg>
+                    <svg className="cBox" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 3a7 7 0 100 14 7 7 0 000-14zm-8 7a8 8 0 1116 0 8 8 0 01-16 0z" fill="blue"></path></svg>
+                    <svg className="checkBox-hover themeBlue" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M10 2a8 8 0 110 16 8 8 0 010-16zm0 1a7 7 0 100 14 7 7 0 000-14zm3.36 4.65c.17.17.2.44.06.63l-.06.07-4 4a.5.5 0 01-.64.07l-.07-.06-2-2a.5.5 0 01.63-.77l.07.06L9 11.3l3.65-3.65c.2-.2.51-.2.7 0z" fill="currentColor"></path></svg>
                     </span>
-                        <ul>
-                            <li className="baseAddInput-important">
-                                <div className="whatTodo">{task.todo} 
-                                {task.date ? <p className="taskDate themeBlue">{task.date}</p> : null } </div> 
-                                <div className="impRepChecker"> 
-                                    {task.repeat > 1 ? <p>Kalan tekrar: {task.repeat}</p> : ''}
-                                    {!task.important ? <div className="importantCheck notFilled"><img src={emptyStars} onClick={ () => changeImportant(task.id,task.important)} title="Add to important"></img></div> 
-                                    : <button onClick={ () => changeImportant(task.id, task.important)}><div className="importantCheck">⭐</div></button>}
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-            ))}
-            </div>
+                    <ul>
+                    <li className={`baseAddInput-important ${task.id === editingTaskId ? 'editMode' : ''}`}>
+              <div className="whatTodo">
+                    {task.id !== editingTaskId ? task.todo : 
+                    <form onSubmit={ (e) => sendNewTodo(e, task.id)}>
+                      <input className="baseAddInput-important editTodo" type="text" maxLength={"255"} placeholder="Add a task" tabIndex={"0"} autoComplete="off" name="editedTodo" disabled={!userID} defaultValue={task.todo}/>
+                    </form>
+                    } 
+                    {task.date ? <p className="taskDate themeBlue">{task.date}</p> : null } 
+                </div> 
+                <div className="impRepChecker">
+                  <div className="editTodo">
+                    <button onClick={() => {handleEditTodo(task.id)}}>🖋️</button>
+                  </div>  
+                  {task.repeat > 1 ? <p>Kalan tekrar: {task.repeat}</p> : ''}
+                  {!task.important ? 
+                    <div className="importantCheck notFilled">
+                      <img src={emptyStars} onClick={ () => changeImportant(task.id,task.important)} title="Add to important"></img>
+                    </div> 
+                    : 
+                    <button onClick={ () => changeImportant(task.id, task.important)}>
+                      <div className="importantCheck">⭐</div>
+                    </button>
+                  }
+                </div>
+              </li>
+            </ul>
+          </div>
+        ))}
+      </div>
         </div>
     )
 }

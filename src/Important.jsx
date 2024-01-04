@@ -12,6 +12,8 @@ import  supabase  from './functions/supabase.jsx'
     const [dateTime, setDateTime] = useState(new Date());
     const [repeatNumber, setRepeatNumber] = useState(0);
     const [repeatDropdown, setRepeatDropdown] = useState(false);
+    const [editingTaskId, setEditingTaskId] = useState(null);
+
 
     const scheduleNotification = () => {
       // Schedule your notification here
@@ -203,6 +205,40 @@ import  supabase  from './functions/supabase.jsx'
     function handleRepeatStyle() {
             setRepeatDropdown(!repeatDropdown);
     }
+    function handleEditTodo (taskId) {
+        if (taskId === editingTaskId) {
+            setEditingTaskId(null); 
+          } else {
+            setEditingTaskId(taskId); 
+          }
+    }
+
+    async function sendNewTodo(e,taskId) {
+        e.preventDefault();
+        const formData = Object.fromEntries(new FormData(e.target));
+        try {
+            const { data, error } = await supabase
+            .from('todo')
+            .update({  
+                todo: formData.editedTodo,
+            })
+            .eq('id', taskId)
+            .select()
+    
+            if (error) {
+                alert(error.message);
+            } else {
+                setEditingTaskId(null);
+                addNotification({
+                    theme: 'light',
+                    title: "Your task successfully edited",
+                    subtitle: `Your task successfully edited to ${formData.editedTodo}`,
+                    duration: 5000
+                })
+            }
+        } catch (error) {
+            console.error('Bir hata oluştu:', error.message);
+        }}
     return(
         <div className="mainBackground">
             <div className="importantHeader">
@@ -256,8 +292,20 @@ import  supabase  from './functions/supabase.jsx'
                         <svg className="checkBox-hover themeBlue" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M10 2a8 8 0 110 16 8 8 0 010-16zm0 1a7 7 0 100 14 7 7 0 000-14zm3.36 4.65c.17.17.2.44.06.63l-.06.07-4 4a.5.5 0 01-.64.07l-.07-.06-2-2a.5.5 0 01.63-.77l.07.06L9 11.3l3.65-3.65c.2-.2.51-.2.7 0z" fill="currentColor"></path></svg>
                     </span>
                     <ul>
-                        <li className="baseAddInput-important">
-                            <div className="whatTodo">{task.todo} </div> <div className="impRepChecker"> {task.repeat > 1 ? <p>Kalan tekrar: {task.repeat}</p> : ''} {task.important ? <div className="importantCheck"><button onClick={ () => changeImportant(task.id)}>⭐</button></div> : null} </div>
+                        <li className={`baseAddInput-important ${task.id === editingTaskId ? 'editMode' : ''}`}>
+                            <div className="whatTodo">
+                                {task.id !== editingTaskId ? task.todo : 
+                                <form onSubmit={ (e) => sendNewTodo(e, task.id)}>
+                                    <input className="baseAddInput-important editTodo" type="text" maxLength={"255"} placeholder="Add a task" tabIndex={"0"} autoComplete="off" name="editedTodo" disabled={!userID} defaultValue={task.todo}/>
+                                </form>
+                                } 
+                        {task.date ? <p className="taskDate themeBlue">{task.date}</p> : null } 
+                            </div> 
+                            <div className="impRepChecker"> 
+                                <div className="editTodo">
+                                        <button onClick={() => {handleEditTodo(task.id)}}>🖋️</button>
+                                </div> 
+                                {task.repeat > 1 ? <p>Kalan tekrar: {task.repeat}</p> : ''} {task.important ? <div className="importantCheck"><button onClick={ () => changeImportant(task.id)}>⭐</button></div> : null} </div>
                         </li>
                     </ul>
                 </div>

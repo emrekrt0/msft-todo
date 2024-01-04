@@ -419,6 +419,9 @@ form>div input:not([type="date"]) {
 .lists .list a {
   flex-grow: 2;
 }
+.tasks .baseAdd ul li.editMode {
+  gap: 15px;
+}
 .creatList form {
   display: flex;
   align-items: center;
