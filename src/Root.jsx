@@ -42,7 +42,7 @@ function App() {
         .from('todo')
         .select('*')
         .eq('user_id', userId)
-        .like('todo', `%${searchText}%`);
+        .ilike('todo', `%${searchText}%`);
   
       if (error) {
         console.error('Arama hatası:', error.message);

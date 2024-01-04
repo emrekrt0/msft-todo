@@ -40,7 +40,7 @@ export default function Header( {onSearch} ) {
     
     async function handleSearch(e) {
         e.preventDefault();
-        const searchText = e.target.value;
+        const searchText = e.target.value.toLowerCase();
         setSearch(searchText);
         onSearch(search);
         navigate('/search')

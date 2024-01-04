@@ -26,7 +26,7 @@ function SignInForm() {
           title: "Başarıyla giriş yaptınız.",
           subtitle: "Anasayfaya yönlendiriliyorsunuz.",
       })
-        navigate('/');
+        navigate('/myday');
       }
     } catch (error) {
       console.error('Bir hata oluştu:', error.message);
