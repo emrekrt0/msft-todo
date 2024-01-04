@@ -608,4 +608,16 @@ input.editTodo {
   padding: 5px 5px;
   border-top: 1px solid #fff;
 }
+.leftNavBar .leftNavbarFlex{
+  height: calc(100vh - 85px);
+}
+.leftNavBar .lNavbar .lNavbarList li>a {
+  padding: 5px 5px;
+  font-weight: normal;
+  gap: 2px;
+}
+.listDelete, .listName {
+  padding: 5px 5px;
+  font-size: 12px;
+}
 }

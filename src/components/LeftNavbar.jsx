@@ -170,7 +170,7 @@ export default function LeftNavbar() {
                             <button type="submit">Oluştur</button>
                         </form>
                     </div> : '' }
-                    <button onClick={handleCreateBtn} className="newListBtn"><div className="addNewList"><h3>Yeni Liste Ekle</h3></div></button>
+                    <button onClick={handleCreateBtn} className="newListBtn" disabled={!userID}><div className="addNewList"><h3>Yeni Liste Ekle</h3></div></button>
                 </div>
                 <div className="leftNavBarBottom">
                     <div className="officeButtons">

@@ -70,7 +70,7 @@ export default function Header( {onSearch} ) {
         <div className="header">
             <div className="header_left">
                 <div className="otherApps">
-                    <NavLink to="/"><button><img src={dotGrid} alt="" /></button></NavLink>
+                    <NavLink to="/myday"><button><img src={dotGrid} alt="" /></button></NavLink>
                 </div>
             </div>
 
