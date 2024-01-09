@@ -1,7 +1,8 @@
 import { Outlet, Link, NavLink, useNavigate} from "react-router-dom";
 import hamburgerIcon from '../assets/static/menu.svg';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import supabase from "../functions/supabase";
+import { SwitchContext } from "../Root";
 
 
 
@@ -12,8 +13,8 @@ export default function LeftNavbar() {
     const [userID, setUserID] = useState();
     const [listId, setListId] = useState();
     const [lists, setLists] = useState([]);
-
     const navigate = useNavigate();
+    const { darkState } = useContext(SwitchContext);
 
     useEffect(() => {
         supabase.auth.onAuthStateChange((event, session) => {
@@ -122,7 +123,7 @@ export default function LeftNavbar() {
             }
     return(
         <>
-        <div className="lnb">
+        <div className={`lnb ${darkState ? "dark-mode":""}`}>
             <div className={`hamburgerMenu ${hamburger ? "bg-white" : ""}`}>
                  <button type="button" onClick={handleHamburger}><img src={hamburgerIcon} alt="" /></button>
             </div>

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { createClient } from '@supabase/supabase-js';
 import settingsIcon from '../assets/static/settings.svg';
 import helpIcon from '../assets/static/help-circle.svg';
@@ -7,7 +7,8 @@ import annIcon from '../assets/static/bullhorn-solid.svg';
 import waffleIcon from '../assets/static/waffle-icon.svg';
 import dotGrid from '../assets/static/dot-grid.svg';
 import { NavLink } from "react-router-dom";
-
+import Switch from "./switch";
+import { SwitchContext } from "../Root";
 
 const supabase = createClient(
     'https://jopuhrloekkmoytnujmb.supabase.co',
@@ -21,6 +22,9 @@ export default function Header( {onSearch} ) {
     const [exitDropdown, setExitDropdown] = useState(false);
     const navigate = useNavigate();
     
+    const { darkState } = useContext(SwitchContext);
+
+
     supabase.auth.onAuthStateChange((event, session) => {
         if (session) {
         setIsLogged(true);
@@ -67,7 +71,7 @@ export default function Header( {onSearch} ) {
 
     return(
         <>
-        <div className="header">
+        <div className={`header ${darkState ? "dark-mode":""}`}>
             <div className="header_left">
                 <div className="otherApps">
                     <NavLink to="/myday"><button><img src={dotGrid} alt="" /></button></NavLink>
@@ -82,6 +86,9 @@ export default function Header( {onSearch} ) {
                     <input type="text" placeholder="Search your tasks" onChange={handleSearch} />
                 </div>
                 <div className="header_userSettings">
+                <div className="changeMode">
+                    {<Switch />}
+                    </div>
                 <div className="settingsIcon">
                     <img src={settingsIcon} alt=""/>
                 </div>

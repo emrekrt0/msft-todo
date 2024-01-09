@@ -1,17 +1,21 @@
 import { Link } from "react-router-dom"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { createClient } from '@supabase/supabase-js';
 import { getSession } from "./Root";
 import { useOutlet } from "react-router-dom";
 import addNotification from "react-push-notification";
 import supabase from './functions/supabase.jsx'
 import emptyStars from './assets/static/emptyStars.svg'; 
+import { SwitchContext } from "./Root";
 
 
 export default function Tasks() {
   const [userID, setUserID] = useState();
   const [tasks, setTasks] = useState([]);
   const [editingTaskId, setEditingTaskId] = useState(null);
+  const { darkState } = useContext(SwitchContext);
+
+  console.log(darkState);
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((event, session) => {

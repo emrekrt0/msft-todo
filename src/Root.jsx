@@ -14,11 +14,13 @@ export async function getSession() {
   }
 }
 export const SearchContext = createContext();
+export const SwitchContext = createContext();
 
 function App() {
   const [userId, setUserId] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-
+  const [darkState, setDarkState] = useState(false);
+  console.log(darkState);
   useEffect(() => {
     supabase.auth.onAuthStateChange((event, session) => {
       setTimeout(() => {
@@ -59,14 +61,16 @@ function App() {
   return (
     <>
     <SearchContext.Provider value={searchResults}>
-      <Header onSearch={handleSearch}/>
-      <div className="mainContent">
-        <Notifications position='top-right'/>
-        <LeftNavbar />
-        <div id="detail">
-        <Outlet searchResults={searchResults} />
-        </div>
-      </div>
+        <SwitchContext.Provider value={{darkState, setDarkState}}>
+          <Header onSearch={handleSearch} />
+            <div className={`mainContent ${darkState ? "dark-mode" : ""}`}>
+              <Notifications position='top-right'/>
+              <LeftNavbar />
+              <div id="detail">
+              <Outlet searchResults={searchResults} />
+              </div>
+            </div>
+        </SwitchContext.Provider>
       </SearchContext.Provider>
     </>
   )
