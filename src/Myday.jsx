@@ -78,55 +78,55 @@ import supabase from './functions/supabase.jsx'
     }
 
     async function handleSendTask(e) {
-        if (!userID) {
-            return;
-        }
-        const repeatNum = e.target.repeat.value;
-        if (!repeatNum) {
-            setRepeatNumber(0);
-        } else {
-            setRepeatNumber(repeatNum);
-            console.log(repeatNumber);
-        }
-        e.preventDefault();
-        const formData = Object.fromEntries(new FormData(e.target));
-        try {
-        const { data, error } = await supabase
-        .from('todo')
-        .insert({  
-            todo: formData.todo,
-            user_id: userID,
-            important: false,
-            date: null,
-            repeat: repeatNum,
-        })
-        .select()
-
-        if (error) {
-            if (error.code === "23505") {
-                alert("Bu görev zaten var");
-            } else {
-            alert(error.message);
-            console.log(error.message); 
-            }
-        } else {    
-            await addNotification({
-                title: 'Your task successfully added',
-                subtitle: 'Your task successfully added to your list.',
-                message: `${formData.todo}`,
-                backgroundTop: '#2564cf',
-                backgroundBottom: '#0f2e64', 
-                colorTop: 'white', 
-                colorBottom: 'white',  
-                duration: 5000
-            });
-            
-            e.target.reset();
-        }
-     } catch (error) {
-        console.error('Bir hata oluştu:', error.message);
-    }
-    }
+      e.preventDefault();
+      if (!userID) {
+          console.log('User ID is not defined');
+          return;
+      }
+      const repeatNum = e.target.repeat.value;
+      if (!repeatNum) {
+          setRepeatNumber(0);
+      } else {
+          setRepeatNumber(repeatNum);
+          console.log(repeatNumber);
+      }
+      const formData = Object.fromEntries(new FormData(e.target));
+      try {
+          if (userID) {
+              const { data, error } = await supabase
+                  .from('todo')
+                  .insert({  
+                      todo: formData.todo,
+                      user_id: userID,
+                      important: false,
+                      date: null,
+                      repeat: repeatNum,
+                  });
+              if (error) {
+                  if (error.code === "23505") {
+                      alert("Bu görev zaten var");
+                  } else {
+                      alert(error.message);
+                      console.log(error.message); 
+                  }
+              } else {    
+                  await addNotification({
+                      title: 'Your task successfully added',
+                      subtitle: 'Your task successfully added to your list.',
+                      message: `${formData.todo}`,
+                      backgroundTop: '#2564cf',
+                      backgroundBottom: '#0f2e64', 
+                      colorTop: 'white', 
+                      colorBottom: 'white',  
+                      duration: 5000
+                  });
+                  e.target.reset();
+              }
+          } else {console.log('Id not defined')}
+      } catch (error) {
+          console.error('Bir hata oluştu:', error.message); 
+      }
+  }
     
 
     async function handleDelete(taskId, repeat) {
