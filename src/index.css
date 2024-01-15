@@ -107,7 +107,6 @@ form>div input:not([type="date"]) {
   gap: 5px;
   justify-content: space-between;
   background-color: #2564cf;
-  margin-bottom: 5px;
 }
 
 .header img {
@@ -314,6 +313,10 @@ form>div input:not([type="date"]) {
 .baseAdd .baseAddInput-important {
   width: 100%;
 }
+.mainContent .mainBackground .addTaskParent form .baseAdd-icon svg {
+  color: #2564cf;
+}
+
 
 .choices {
   border-top: solid 1px #edebe9;
@@ -633,6 +636,63 @@ input.editTodo {
 }
 
 .lnb.dark-mode .leftNavBar {
-  background-color: #1D1F2C;
+  background-color: #252423;
   box-shadow: 0px 0.3px 0.9px rgba(0,0,0,0.1), 0px 1.6px 3.6px rgba(0,0,0,0.1);
 }
+.lnb.dark-mode .hamburgerMenu.bg-white{
+  background-color: #252423;
+}
+.lnb.dark-mode .hamburgerMenu .fluentIcon {
+  color: #fff;
+}
+.lnb.dark-mode .leftNavBar .lNavbar .lNavbarList li>a {
+  color: #fff;
+}
+.lnb.dark-mode .leftNavBar .lNavbar .lNavbarList li:hover {
+  background-color: #323130;
+}
+.lnb.dark-mode .leftNavBar .lNavbar .lNavbarList li a.active {
+  background-color: #3b3a39;
+}
+.lnb.dark-mode .leftNavBar .splitter {
+  background-color: #3b3a39;
+}
+.lnb.dark-mode .leftNavBar .addNewList h3 {
+  color: #fff;
+}
+.lnb.dark-mode .leftNavBar .listName  {
+  color: #fff;
+}
+.lnb.dark-mode .leftNavBar .list:hover {
+  background-color: #323130;
+}
+.lnb.dark-mode .leftNavBar .list a.active {
+  background-color: #3b3a39;
+}
+.lnb.dark-mode .leftNavBar .leftNavBarBottom .officeButtons svg {
+  color: #fff;
+}
+.mainContent.dark-mode #detail {
+  background-color: #11100f;
+}
+.mainContent.dark-mode .mainBackground .importantHeader .importantHeader-title {
+  color: #fff;
+}
+.mainContent.dark-mode .mainBackground .addTaskParent {
+  background-color: #252423;
+}
+.mainContent.dark-mode .mainBackground .addTaskParent form input {
+  background-color: #252423;
+  color: #fff;
+}
+.mainContent.dark-mode .mainBackground .addTaskParent form .baseAdd-icon svg {
+  color: #78bafd;
+}
+.mainContent.dark-mode .mainBackground .addTaskParent form .choices {
+  background-color: #201f1e;
+  border-top: solid 1px var(--bg-border);
+}
+.mainContent.dark-mode .mainBackground .addTaskParent form .choices svg  {
+  color: #fff;
+}
+
