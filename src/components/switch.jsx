@@ -1,4 +1,4 @@
-import '../Switch.css';
+import '../switch.css';
 import { useContext, useState } from 'react';
 import { SwitchContext } from '../Root';
 
