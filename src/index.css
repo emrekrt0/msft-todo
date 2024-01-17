@@ -1,4 +1,7 @@
 /* CSS Reset Baslangic */
+html {
+  height: 100%;
+}
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -28,7 +31,9 @@ input, button, textarea, select {
 p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
-
+#root {
+  height: 100%;
+}
 #root, #__next {
   isolation: isolate;
 }
@@ -216,10 +221,8 @@ form>div input:not([type="date"]) {
   background-color: #fff;
   width: fit-content;
   box-shadow: 0px 0.3px 0.9px rgba(0,0,0,0.1), 0px 1.6px 3.6px rgba(0,0,0,0.1);
-  min-height: calc(100vh - 85px);
   height: 100%;
   padding: 10px 10px;
-
 }
 .leftNavBar .lNavbar .lNavbarList {
   width: 240px;
@@ -251,6 +254,7 @@ form>div input:not([type="date"]) {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  overflow: auto; /* or 'scroll' */
 }
 .leftNavBar.none {
   display: none;
@@ -261,12 +265,14 @@ form>div input:not([type="date"]) {
   flex-direction: row;
   justify-content: space-between;
   padding: 10px 20px;
+  flex-shrink: 1;
 }
 #detail {
   width: 100%;
 }
 #root .mainContent {
   display: flex;
+  height: 100%;
 }
 .mainContent .mainBackground {
 
